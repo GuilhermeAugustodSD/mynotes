@@ -21,7 +21,7 @@ export function SignIn(){
     return(
         <Container>
             <Form>
-                <h1>RocketNotes</h1>
+                <h1>MyNotes</h1>
                 <p>Aplicação para salvar e gerenciar seus links úteis.</p>
 
                 <h2>Faça seu login</h2>
