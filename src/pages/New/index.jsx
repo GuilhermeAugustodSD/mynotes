@@ -20,6 +20,8 @@ export function New(){
 
     const [tags, setTags] = useState([]);
     const [newTag, setNewTag] = useState("");
+    const [restricaoNota, setRestricaoNota] = useState(0);
+
     const navigate = useNavigate();
 
     function handleAddLink() {
@@ -60,6 +62,7 @@ export function New(){
         await api.post("/notes", {
             title,
             description,
+            restricao_nota: restricaoNota,
             tags,
             links
         });
@@ -67,6 +70,7 @@ export function New(){
         alert("Nota cadastrada com sucesso!");
         navigate(-1);
     }
+
     return(
         <Container>
             <Header />
@@ -77,6 +81,15 @@ export function New(){
                         <h1>Criar Nota</h1>
                         <ButtonText title="Voltar" onClick={handleBack}/>
                     </header>
+
+                    <select 
+                        name="select" 
+                        id=""
+                        onChange={e => setRestricaoNota(parseInt(e.target.value, 10))}
+                    >
+                        <option value="0">Pública</option>
+                        <option value="1">Privada</option>
+                    </select>
 
                     <Input
                         placeholder="Título"
