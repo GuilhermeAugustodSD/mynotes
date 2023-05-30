@@ -37,6 +37,10 @@ export const Form = styled.form`
         margin-top: 124px;
         color: ${({ theme }) => theme.COLORS.ORANGE};
     }
+
+    input:-internal-autofill-selected {
+        background-color: transparent;
+    }
 `;
 
 export const Background = styled.div`
