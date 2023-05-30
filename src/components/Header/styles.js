@@ -15,6 +15,12 @@ export const Container = styled.header`
     justify-content: space-between;
 
     padding: 0 80px;
+
+    > div {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
 `;
 
 export const Profile = styled(Link)`
@@ -47,6 +53,20 @@ export const Profile = styled(Link)`
 `;
 
 export const Logout = styled.button`
+    border: none;
+    background: none;
+    cursor: pointer;
+
+    > svg {
+        font-size: 36px;
+        width: 36px;
+        height: 36px;
+        fill: ${({ theme }) => theme.COLORS.GRAY_100};
+    }
+
+`;
+
+export const LogoGroup = styled(Link)`
     border: none;
     background: none;
     cursor: pointer;

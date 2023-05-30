@@ -1,4 +1,4 @@
-import { Container, Links, Content } from './styles'
+import { Container, Links, Content, Checklist } from './styles'
 import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
@@ -83,6 +83,27 @@ export function Details() {
 
                   ))
                 }
+              </Section>
+            }
+
+            {
+              data.checklist &&
+              <Section title="Checklist">
+                <Links>
+                {
+                  data.checklist.map(checklist => (
+                    <Checklist>
+                      <label htmlFor={checklist.id}>{checklist.title}</label>
+                      <input type="checkbox" name={checklist.title} id={checklist.id} key={checklist.id}/>
+                    </Checklist>
+                    // <li key={String(checklist.id)} >  
+                      
+                    //   {checklist.title}
+                    // </li>
+
+                  ))
+                }
+                </Links>
               </Section>
             }
 

@@ -10,6 +10,7 @@ import { useState } from "react";
 import { api } from "../../services/api";
 import { useNavigate } from "react-router-dom";
 import { ButtonText } from "../../components/ButtonText";
+import { useEffect } from "react";
 export function New(){
 
     const [title, setTitle] = useState("");
@@ -18,10 +19,24 @@ export function New(){
     const [links, setLinks] = useState([]);
     const [newLink, setNewLink] = useState("");
 
+    const [grupos, setGrupos] = useState([]);
+    const [idGroup, setIdGroup] = useState("");
+
     const [tags, setTags] = useState([]);
     const [newTag, setNewTag] = useState("");
+    const [checklist, setChecklist] = useState([]);
+    const [newChecklist, setNewChecklist] = useState("");
     const [restricaoNota, setRestricaoNota] = useState(0);
 
+    useEffect(() => {
+        async function fetchGrupos(){
+          const  response = await api.get(`/grupos/usergrupos`);
+          setGrupos(response.data);
+        }
+    
+        fetchGrupos();
+    }, [])
+    console.log(grupos);
     const navigate = useNavigate();
 
     function handleAddLink() {
@@ -40,6 +55,15 @@ export function New(){
 
     function handleRemoveTag(deleted){
         setTags(prevState => prevState.filter(tag => tag !== deleted));
+    }
+
+    function handleAddChecklist() {
+        setChecklist(prevState => [...prevState, newChecklist]);
+        setNewChecklist("");
+    }
+
+    function handleRemoveChecklist(deleted){
+        setChecklist(prevState => prevState.filter(checklist => checklist !== deleted));
     }
 
     function handleBack(){
@@ -64,7 +88,9 @@ export function New(){
             description,
             restricao_nota: restricaoNota,
             tags,
-            links
+            links,
+            checklist,
+            grupos_id: idGroup
         });
 
         alert("Nota cadastrada com sucesso!");
@@ -89,6 +115,21 @@ export function New(){
                     >
                         <option value="0">Pública</option>
                         <option value="1">Privada</option>
+                    </select>
+
+
+                    <select 
+                        name="select" 
+                        id=""
+                        onChange={e => setIdGroup(parseInt(e.target.value, 10))}
+                    >
+                        <option value="0">Selecione um grupo</option>
+                        {
+                            grupos && 
+                            grupos.map((grupo, index) => (
+                                <option key={grupo[0].id} value={grupo[0].id}>{grupo[0].name}</option>
+                            ))
+                        }
                     </select>
 
                     <Input
@@ -140,6 +181,27 @@ export function New(){
                                 value={newTag}
                             />
                         </div>
+                    </Section>
+
+                    <Section title="Checklist">
+                        {
+                            checklist.map((checklist, index) => (
+                                <NoteItem 
+                                    key={String(checklist.id)}
+                                    value={checklist}
+                                    onClick={() => handleRemoveChecklist(checklist)}
+                                />
+                                
+                            ))
+                        }
+
+                        <NoteItem 
+                            isNew 
+                            placeholder="Novo Checklist" 
+                            onChange={e => setNewChecklist(e.target.value)}
+                            onClick={handleAddChecklist}
+                            value={newChecklist}
+                        />
                     </Section>
 
                     <Button 

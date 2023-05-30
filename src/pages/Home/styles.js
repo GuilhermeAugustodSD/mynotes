@@ -16,7 +16,11 @@ export const Container  = styled.div`
 
     background-color: ${({ theme }) => theme.COLORS.BACKGROUND_800};
 
+    .buttoms {
+        display: flex;
+        gap: 10px;
 
+    }
 `;
 export const Brand  = styled.div`
     grid-area: brand;

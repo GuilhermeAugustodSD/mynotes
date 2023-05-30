@@ -2,6 +2,7 @@ import { Container, Brand, Menu, Search, Content, NewNote } from './styles';
 import {FiPlus, FiSearch} from 'react-icons/fi'
 import { useState, useEffect } from 'react';
 import { Header } from '../../components/Header'
+import { ButtonTextMain } from '../../components/ButtonTextMain'
 import { ButtonText } from '../../components/ButtonText'
 import { Input } from '../../components/Input'
 import { Section } from '../../components/Section'
@@ -14,6 +15,12 @@ export function Home() {
   const [tagsSelected, setTagsSelected] = useState([]);
   const [search, setSearch] = useState("");
   const [notes, setNotes] = useState([]);
+  
+  const [opcaoNota, setOpcaoNota] = useState("minha");
+  const [idGrupo, setIdGrupo] = useState();
+  const [grupos, setGrupos] = useState([]);
+  const [gruposSelected, setGruposSelected] = useState([]);
+
 
   const navigate = useNavigate();
 
@@ -34,6 +41,31 @@ export function Home() {
 
   }
 
+  function handleGrupoSelected(grupoName){
+
+    if (grupoName === "Minhas Notas") {
+      return setGruposSelected([]);
+    }
+    const alreadySelected = gruposSelected.includes(grupoName);
+
+    if (alreadySelected) {
+      const filterGrupos = gruposSelected.filter(grupo => grupo !== grupoName);
+      setGruposSelected(filterGrupos);
+    }else {
+      setTagsSelected(prevState => [...prevState, grupoName]);
+    }
+
+  }
+
+  useEffect(() => {
+    async function fetchGrupos(){
+      const  response = await api.get(`/grupos/usergrupos`);
+      setGrupos(response.data);
+    }
+
+    fetchGrupos();
+  }, [])
+
   function handleDetail(id) {
     navigate(`/details/${id}`)
   }
@@ -48,13 +80,29 @@ export function Home() {
 
   useEffect(() => {
     async function fetchNotes(){
-      const response = await api.get(`/notes?title=${search}&tags=${tagsSelected}`, )
-      setNotes(response.data)
+      if (opcaoNota == "minha") {
+        const response = await api.get(`/notes?title=${search}&tags=${tagsSelected}`, )
+        setNotes(response.data)
+      }else {
+        const response = await api.get(`/notes/noteGrupo/${idGrupo}`, )
+        setNotes(response.data)
+      }
     }
 
     fetchNotes();
 
-  }, [tagsSelected, search])
+  }, [tagsSelected, search, opcaoNota])
+
+  useEffect(() => {
+    if (idGrupo){
+      setOpcaoNota(`grupo ${idGrupo}`);
+    } else {
+      setOpcaoNota("minha")
+    }
+
+  }, [idGrupo])
+
+  
   return (
     <Container>
       <Brand>
@@ -97,7 +145,36 @@ export function Home() {
       </Search>
 
       <Content>
-        <Section title="Minhas Notas">
+        <div className="buttoms">
+          <ButtonTextMain
+            title="Minhas Notas"
+            isActive={gruposSelected.length === 0} 
+            onClick={() => {
+                handleTagSelected("Todos")
+                setOpcaoNota("minha");
+                handleGrupoSelected("Minhas Notas");
+              }
+            }
+          />
+          {
+            grupos &&
+            grupos.map((grupo, index) => (
+              <ButtonTextMain
+                key={grupo[0].id}
+                title={grupo[0].name}
+                onClick={() => {
+                  setIdGrupo(grupo[0].id);
+                  setGruposSelected(grupo[0].name);
+                  handleGrupoSelected(grupo[0].name);
+                }
+              }
+              isActive={gruposSelected.includes(grupo[0].name)}
+              />
+            ))
+          }
+        </div>
+
+        <Section>
           {
             notes.map(note => (
               <Note 
