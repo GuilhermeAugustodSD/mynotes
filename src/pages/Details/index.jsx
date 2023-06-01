@@ -31,6 +31,7 @@ export function Details() {
     async function fetchNote(){
       const response = await api.get(`/notes/${params.id}`);
       setData(response.data);
+      console.log(response.data)
     }
 
     fetchNote();

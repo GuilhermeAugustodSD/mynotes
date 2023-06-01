@@ -38,10 +38,24 @@ export const Form = styled.form`
         margin-top: 124px;
         color: ${({ theme }) => theme.COLORS.ORANGE};
     }
+
+    @media (max-width: 480px){
+        padding: 50px;
+
+        >button {
+            padding: 15px
+        }
+
+    }
 `;
 
 export const Background = styled.div`
     flex: 1;
     background: url(${backgroundImg}) no-repeat center center;
     background-size: cover;
+
+    @media (max-width: 480px){
+        display: none;
+
+    }
 `;
