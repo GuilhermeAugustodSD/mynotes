@@ -25,7 +25,7 @@ export default function AdminUser() {
     let totals = users.length
     
     function displayMonths(user) {
-        let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
+        let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
         let userMonths = []
         let store = []
         let valPerMonth = {}

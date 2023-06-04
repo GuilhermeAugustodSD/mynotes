@@ -4,6 +4,8 @@ import { api } from '../../../services/api'
 import AdminUsersTotals from "../../../components/AdminUsers/AdminTotais";
 import AdminGrafic from "../../../components/AdminUsers/AdminGrafic";
 import AdminTable from "../../../components/AdminUsers/AdminTable";
+import SearchBar from "../../../components/SearchBar";
+import { useSelector } from "react-redux";
 
 
 export default function AdminNotes() {
@@ -23,7 +25,6 @@ export default function AdminNotes() {
 
   }, [])
 
-  //console.log(notes)
   const totals = notes.length
 
   function displayGrafic(notes) {
@@ -39,13 +40,11 @@ export default function AdminNotes() {
       usersValues[item.user_id] = (usersValues[item.user_id] || 0) + 1;
     })
 
-    //console.log(usersId)
 
     users.map(data => {
       if (usersId.includes(data.id)) return usersName.push(data.name)
     })
 
-    //console.log(usersName)
 
     return [Object.values(usersValues), usersName, usersId]
 

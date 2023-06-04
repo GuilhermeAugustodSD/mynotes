@@ -17,7 +17,6 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import TabsItens from './TabItens';
 import { Outlet } from 'react-router-dom';
 import { Dashboard } from '@mui/icons-material';
-import SearchBar from '../SearchBar';
 
 
 const drawerWidth = 240;

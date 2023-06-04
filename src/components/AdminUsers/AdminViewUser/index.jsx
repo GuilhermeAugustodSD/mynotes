@@ -1,8 +1,9 @@
 import { useState } from "react";
 import avatarPlaceHolder from "../../../assets/avatar_placeholder.svg"
-import { Avatar, Badge, Box, TextField, Typography } from "@mui/material";
-import { CameraAlt } from "@mui/icons-material";
+import { Avatar, Badge, Box, Typography } from "@mui/material";
 import moment from "moment";
+import { api } from "../../../services/api";
+
 
 
 export default function ShowAdminData({ name, avatar, created_at }) {
@@ -15,7 +16,7 @@ export default function ShowAdminData({ name, avatar, created_at }) {
 
     return (
         <>
-            <div style={{display: 'flex', gap: 20 , alignItems: 'center', marginTop: 10} }>
+            <div style={{ display: 'flex', gap: 20, alignItems: 'center' }}>
                 <Box component="form" noValidate sx={{ mt: 1 }}>
                     <Badge
                         overlap="circular"
@@ -31,7 +32,7 @@ export default function ShowAdminData({ name, avatar, created_at }) {
                 </Box>
                 <div>
                     <Typography variant="h5" color="primary">{name}</Typography>
-                    <Typography color='#82b1ff'>{moment(created_at).format("MMMM Do YYYY")}</Typography>
+                    <Typography color='#82b1ff'>{moment(userCreated_at).format("MMMM Do YYYY")}</Typography>
                 </div>
             </div>
         </>

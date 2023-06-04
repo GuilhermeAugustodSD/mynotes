@@ -1,0 +1,15 @@
+.seachBar {
+    border-radius: 10px;
+    box-shadow: 0 4px 4px rgba(0,0,0,.25);
+    border: solid;
+    border-width: 0.5px;
+    border-color: #1976d2;
+    padding: 14px 16px;
+    width: 40%;
+  }
+  
+  .seachBar input {
+    outline: none;
+    border-style: none;    
+    width: 100%;
+  }

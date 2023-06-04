@@ -12,7 +12,6 @@ export default function AdminHome() {
   const [usersNotes, setUsersNotes] = useState([]);
 
   const { user } = useAuth();
-  console.log(user)
 
   useEffect(() => {
     async function fetchUsersNotes() {
@@ -20,11 +19,10 @@ export default function AdminHome() {
       setUsersNotes(Object.values(response.data))
     }
     fetchUsersNotes();
-  }, [user])
+  }, [])
 
   let totals = usersNotes.length
   
-  console.log(usersNotes)
   return (
     <>
       <AdminCards

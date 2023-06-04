@@ -13,7 +13,7 @@ export default function AdminEditUser({ name, avatar, email, id }) {
     const [userName, setUserName] = useState(name)
     const [userEmail, setUserEmail] = useState(email)
     const [userId, setAUserId] = useState(id)
-    const [adminPassword, setAdminPassword] = useState('' || undefined)
+    const [adminPassword, setAdminPassword] = useState('')
 
     const avatarUrl = avatar ? `${api.defaults.baseURL}/files/${avatar}` : avatarPlaceHolder;
     const [avatarName, setAvatarName] = useState(avatarUrl);

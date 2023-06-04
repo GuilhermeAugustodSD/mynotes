@@ -3,6 +3,8 @@ import { useAuth } from "../hooks/auth";
 import { AppRoutes } from "./app.routes";
 import { AuthRoutes } from "./auth.routes";
 import { AppRoutesAdmin } from "./admin.routes";
+import { Provider } from "react-redux";
+import store from "../store";
 
 export function Routes() {
 
@@ -15,7 +17,9 @@ export function Routes() {
         <BrowserRouter>
             {user ?
                 regExp.test(actualRoute) ?
-                    <AppRoutesAdmin/>
+                    <Provider store={store}>
+                        <AppRoutesAdmin/>
+                    </Provider>
                     :
                     <AppRoutes />
                 :

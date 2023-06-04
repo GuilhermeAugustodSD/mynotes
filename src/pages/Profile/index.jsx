@@ -23,7 +23,7 @@ export function Profile(){
     const [avatarFile, setAvatarFile] = useState(null);
 
     const navigate = useNavigate();
-    console.log(user)
+
     async function handleUpdate () {
         const updated = {
             name,

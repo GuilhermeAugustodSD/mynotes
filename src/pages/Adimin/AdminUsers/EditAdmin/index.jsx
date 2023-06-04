@@ -34,7 +34,7 @@ export default function EditAdmin() {
                 flexDirection={'colum'}
                 title={'User Data'}
                 height='auto'
-                component={<AdminEditUser name={users.name} avatar={users.avatar} email={user.email} id={user.id} old_password={user.password} />}
+                component={<AdminEditUser name={users.name} avatar={users.avatar} email={users.email} id={users.id} old_password={users.password} />}
             />
         </>
     )

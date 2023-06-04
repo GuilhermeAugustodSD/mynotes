@@ -1,5 +1,5 @@
 import { Container, Brand, Menu, Search, Content, NewNote } from './styles';
-import {FiPlus, FiSearch} from 'react-icons/fi'
+import { FiPlus, FiSearch } from 'react-icons/fi'
 import { useState, useEffect } from 'react';
 import { Header } from '../../components/Header'
 import { ButtonText } from '../../components/ButtonText'
@@ -18,7 +18,7 @@ export function Home() {
   const navigate = useNavigate();
 
 
-  function handleTagSelected(tagName){
+  function handleTagSelected(tagName) {
 
     if (tagName === "Todos") {
       return setTagsSelected([]);
@@ -28,7 +28,7 @@ export function Home() {
     if (alreadySelected) {
       const filterTags = tagsSelected.filter(tag => tag !== tagName);
       setTagsSelected(filterTags);
-    }else {
+    } else {
       setTagsSelected(prevState => [...prevState, tagName]);
     }
 
@@ -38,9 +38,8 @@ export function Home() {
     navigate(`/details/${id}`)
   }
   useEffect(() => {
-    async function fetchTags(){
+    async function fetchTags() {
       const response = await api.get("/tags");
-      console.log(response.data)
       setTags(response.data)
     }
 
@@ -48,10 +47,9 @@ export function Home() {
   }, [])
 
   useEffect(() => {
-    async function fetchNotes(){
-      const response = await api.get(`/notes?title=${search}&tags=${tagsSelected}`, )
+    async function fetchNotes() {
+      const response = await api.get(`/notes?title=${search}&tags=${tagsSelected}`,)
       setNotes(response.data)
-      console.log(response.data)
     }
 
     fetchNotes();
@@ -67,22 +65,22 @@ export function Home() {
 
       <Menu>
         <li>
-          <ButtonText 
-            title="Todos" 
-            isActive={tagsSelected.length === 0} 
-            onClick={() => handleTagSelected("Todos")} 
+          <ButtonText
+            title="Todos"
+            isActive={tagsSelected.length === 0}
+            onClick={() => handleTagSelected("Todos")}
 
           />
         </li>
         {
           tags && tags.map(tag => (
-            <li key={String(tag.id)}> 
-              <ButtonText 
+            <li key={String(tag.id)}>
+              <ButtonText
                 title={tag.name}
                 onClick={() => handleTagSelected(tag.name)}
-                isActive={tagsSelected.includes(tag.name)} 
+                isActive={tagsSelected.includes(tag.name)}
 
-              />  
+              />
             </li>
 
           ))
@@ -102,13 +100,13 @@ export function Home() {
         <Section title="Minhas Notas">
           {
             notes.map(note => (
-              <Note 
+              <Note
                 key={String(note.id)}
                 data={note}
                 onClick={() => handleDetail(note.id)}
 
               />
-              )
+            )
             )
           }
         </Section>

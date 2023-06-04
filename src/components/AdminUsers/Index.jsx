@@ -1,14 +1,16 @@
 import { useState } from "react"
 import { useEffect } from "react"
 import { api } from '../../services/api';
-import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, tableCellClasses} from "@mui/material"
+import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, tableCellClasses } from "@mui/material"
 import { Link } from "react-router-dom";
 import { styled } from '@mui/material/styles';
+import SearchBar from "../SearchBar";
+import { useSelector } from "react-redux";
 
 
 export default function UserAdmin() {
     const [users, setUsers] = useState([]);
-   
+
     useEffect(() => {
         async function fetchUsers() {
             const response = await api.get("/users");
@@ -17,8 +19,17 @@ export default function UserAdmin() {
 
         fetchUsers();
     }, [])
+    console.log(users)
 
-    function deletar (id) {
+    const { usersFilter } = useSelector(state => {
+        const regexp = new RegExp(state.busca, 'i')
+        return {
+            usersFilter: users.filter(item => item.name.match(regexp))
+        }
+    })
+
+
+    function deletar(id) {
         async function fetchUsers() {
             await api.delete(`/users/${id}`)
                 .then(() => {
@@ -33,16 +44,20 @@ export default function UserAdmin() {
 
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
-          backgroundColor: theme.palette.primary.main,
-          color: theme.palette.common.white,
+            backgroundColor: theme.palette.primary.main,
+            color: theme.palette.common.white,
         },
         [`&.${tableCellClasses.body}`]: {
-          fontSize: 14,
+            fontSize: 14,
         },
-      }));
+    }));
 
     return (
-            <TableContainer >
+        <>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
+                <SearchBar label='Search user' />
+            </div>
+            <TableContainer style={{ marginTop: '2%' }}>
                 <Table>
                     <TableHead>
                         <TableRow>
@@ -61,7 +76,7 @@ export default function UserAdmin() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {users.map(user => <TableRow key={user.id}>
+                        {usersFilter.map(user => <TableRow key={user.id}>
                             <TableCell>
                                 {user.name}
                             </TableCell>
@@ -75,7 +90,9 @@ export default function UserAdmin() {
                                 {<Button
                                     color="error"
                                     variant="outlined"
-                                    onClick={() => deletar(user.id)}>Deletar</Button>}
+                                    onClick={() => deletar(user.id)}
+                                    >Deletar
+                                </Button>}
                             </TableCell>
 
                         </TableRow>
@@ -83,5 +100,6 @@ export default function UserAdmin() {
                     </TableBody>
                 </Table>
             </TableContainer>
+        </>
     )
 }
