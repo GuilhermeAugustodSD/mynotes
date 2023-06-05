@@ -1,4 +1,4 @@
-import { Container, Links, Content } from './styles'
+import { Container, Links, Content, Checklist } from './styles'
 import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
@@ -17,6 +17,15 @@ export function Details() {
   function handleBack(){
     navigate(-1);
   }
+
+  const handleClick = (event) => {
+    event.preventDefault();
+    const newWindow = window.open("www.gdantasid.com");
+    const pageTitle = newWindow.document.title;
+    
+    alert(pageTitle);
+    newWindow.close();
+  };
   
   async function handleRemove(){
     const confirm = window.confirm("Deseja realmente remover a nota?");
@@ -83,6 +92,27 @@ export function Details() {
 
                   ))
                 }
+              </Section>
+            }
+
+            {
+              data.checklist &&
+              <Section title="Checklist">
+                <Links>
+                {
+                  data.checklist.map(checklist => (
+                    <Checklist>
+                      <label htmlFor={checklist.id}>{checklist.title}</label>
+                      <input type="checkbox" name={checklist.title} id={checklist.id} key={checklist.id}/>
+                    </Checklist>
+                    // <li key={String(checklist.id)} >  
+                      
+                    //   {checklist.title}
+                    // </li>
+
+                  ))
+                }
+                </Links>
               </Section>
             }
 

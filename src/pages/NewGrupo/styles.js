@@ -26,9 +26,6 @@ export const Form = styled.form`
     max-width: 550px;
     margin: 38px auto;
 
-    display: flex;
-    flex-direction: column;
-
     > header {
         display: flex;
         align-items: center;
@@ -49,8 +46,47 @@ export const Form = styled.form`
         border: none;
         padding: 10px;
         border-radius: 10px;
-        width: max-content;
     }
 
+
+`;
+
+export const Grupos = styled.div`
+    max-width: 550px;
+    margin: 38px auto;
+
+    > header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        margin-bottom: 36px;
+
+    }
+
+    .grupo {
+        margin-bottom: 12px;
+        background-color: #232129;
+        color: #F4EDE8;
+        border: none;
+        padding: 10px;
+        border-radius: 10px;
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        li {
+            color: #F4EDE8;
+            border: none;
+
+            list-style: none;
+        }
+
+        svg {
+            cursor: pointer;
+        }
+
+    }
 
 `;

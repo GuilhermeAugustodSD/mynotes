@@ -10,6 +10,10 @@ import { useState } from "react";
 import { api } from "../../services/api";
 import { useNavigate } from "react-router-dom";
 import { ButtonText } from "../../components/ButtonText";
+import { useEffect } from "react";
+import Swal from 'sweetalert2'
+
+
 export function New(){
 
     const [title, setTitle] = useState("");
@@ -18,8 +22,24 @@ export function New(){
     const [links, setLinks] = useState([]);
     const [newLink, setNewLink] = useState("");
 
+    const [grupos, setGrupos] = useState([]);
+    const [idGroup, setIdGroup] = useState("");
+
     const [tags, setTags] = useState([]);
     const [newTag, setNewTag] = useState("");
+    const [checklist, setChecklist] = useState([]);
+    const [newChecklist, setNewChecklist] = useState("");
+    const [restricaoNota, setRestricaoNota] = useState(0);
+
+    useEffect(() => {
+        async function fetchGrupos(){
+          const  response = await api.get(`/grupos/usergrupos`);
+          setGrupos(response.data);
+        }
+    
+        fetchGrupos();
+    }, [])
+    console.log(grupos);
     const navigate = useNavigate();
 
     function handleAddLink() {
@@ -40,33 +60,78 @@ export function New(){
         setTags(prevState => prevState.filter(tag => tag !== deleted));
     }
 
+    function handleAddChecklist() {
+        setChecklist(prevState => [...prevState, newChecklist]);
+        setNewChecklist("");
+    }
+
+    function handleRemoveChecklist(deleted){
+        setChecklist(prevState => prevState.filter(checklist => checklist !== deleted));
+    }
+
     function handleBack(){
         navigate(-1);
       }
 
     async function handleNewNote(){
         if(!title) {
-            return alert("Digite o título da nota");
+            return Swal.fire({
+                position: 'center',
+                icon: 'warning',
+                title: "Digite o título da nota!",
+                showConfirmButton: true,
+                confirmButtonColor: "#FF9000",
+                color: "#fff",
+                background: "#312E38"
+            });;
         }
         
         if(newLink) {
-            return alert("Você deixou uma Link no campo de adicionar, mas não adicionou corretamente");
+            return Swal.fire({
+                position: 'center',
+                icon: 'warning',
+                title: "Você deixou uma Link no campo de adicionar, mas não adicionou corretamente",
+                showConfirmButton: true,
+                confirmButtonColor: "#FF9000",
+                color: "#fff",
+                background: "#312E38"
+            });
         }
 
         if(newTag) {
-            return alert("Você deixou uma Tag no campo de adicionar, mas não adicionou corretamente");
+            return Swal.fire({
+                position: 'center',
+                icon: 'warning',
+                title: "Você deixou uma Tag no campo de adicionar, mas não adicionou corretamente",
+                showConfirmButton: true,
+                confirmButtonColor: "#FF9000",
+                color: "#fff",
+                background: "#312E38"
+            });
         }
         
         await api.post("/notes", {
             title,
             description,
+            restricao_nota: restricaoNota,
             tags,
-            links
+            links,
+            checklist,
+            grupos_id: idGroup
         });
 
-        alert("Nota cadastrada com sucesso!");
+        Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Nota cadastrada com sucesso',
+            showConfirmButton: false,
+            timer: 2000,
+            color: "#fff",
+            background: "#312E38"
+        });
         navigate(-1);
     }
+
     return(
         <Container>
             <Header />
@@ -78,12 +143,38 @@ export function New(){
                         <ButtonText title="Voltar" onClick={handleBack}/>
                     </header>
 
+                    <select 
+                        name="select" 
+                        id=""
+                        onChange={e => setRestricaoNota(parseInt(e.target.value, 10))}
+                    >
+                        <option value="0">Pública</option>
+                        <option value="1">Privada</option>
+                    </select>
+
+
+                    <select 
+                        name="select" 
+                        id=""
+                        onChange={e => setIdGroup(parseInt(e.target.value, 10))}
+                    >
+                        <option value="0">Selecione um grupo</option>
+                        {
+                            grupos && 
+                            grupos.map((grupo, index) => (
+                                <option key={grupo[0].id} value={grupo[0].id}>{grupo[0].name}</option>
+                            ))
+                        }
+                    </select>
+
                     <Input
+                        label = "Título"
                         placeholder="Título"
                         onChange={e => setTitle(e.target.value)}
                     />
 
                     <TextArea 
+                        label = "Descrição"
                         placeholder="Observações"
                         onChange={e => setDescription(e.target.value)}
                     />
@@ -127,6 +218,27 @@ export function New(){
                                 value={newTag}
                             />
                         </div>
+                    </Section>
+
+                    <Section title="Checklist">
+                        {
+                            checklist.map((checklist, index) => (
+                                <NoteItem 
+                                    key={String(checklist.id)}
+                                    value={checklist}
+                                    onClick={() => handleRemoveChecklist(checklist)}
+                                />
+                                
+                            ))
+                        }
+
+                        <NoteItem 
+                            isNew 
+                            placeholder="Novo Checklist" 
+                            onChange={e => setNewChecklist(e.target.value)}
+                            onClick={handleAddChecklist}
+                            value={newChecklist}
+                        />
                     </Section>
 
                     <Button 

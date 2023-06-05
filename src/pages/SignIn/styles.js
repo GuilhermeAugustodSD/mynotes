@@ -38,8 +38,9 @@ export const Form = styled.form`
         color: ${({ theme }) => theme.COLORS.ORANGE};
     }
 
-    @media (max-width: 480px){
-        padding: 50px
+
+    input:-internal-autofill-selected {
+        background-color: transparent;
     }
 `;
 

@@ -30,6 +30,16 @@ export const Links = styled.ul`
     }
 `;
 
+export const Checklist = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+
+    
+`;
+
 export const Content = styled.div`
     max-width: 550px;
     margin: 0 auto;
