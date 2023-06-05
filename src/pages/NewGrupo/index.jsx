@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { ButtonText } from "../../components/ButtonText";
 import { Button } from "../../components/Button";
 import { useEffect } from "react";
+import Swal from 'sweetalert2'
 export function NewGrupo(){
 
     const [name, setName] = useState("");
@@ -29,10 +30,80 @@ export function NewGrupo(){
 
     useEffect(() => {
         if (idGrupo){
-            setShowInput(true);
+            // setShowInput(true);
+            async function handleEmail() {
+
+               await Swal.fire({
+                    title: 'Digite o e-mail que deseja adicionar ao grupo',
+                    input: 'email',
+                    inputLabel: 'Novo colaborador',
+                    inputPlaceholder: 'Digite o e-mail',
+                    color: "#fff",
+                    background: "#312E38",
+                    confirmButtonColor: "#FF9000"
+
+                }).then((result) => {
+                    setEmail(result.value);
+                    console.log(email);
+                })
+            }
+
+            handleEmail()
         }
 
-    }, [idGrupo])
+    }, [idGrupo]) //erro de não conseguir abrir o mesmo input de grupo pq o id não muda: Fazer uma função invés do useEffect
+
+    useEffect(() => {
+        if(email){
+            async function fetchGrupos(){
+                try{
+                    const add =  await api.post(`/grupos/addUser?email=${email}&grupos_id=${idGrupo}`);
+    
+                    if (add.status === 200) {
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'Email cadastrado com sucesso',
+                            showConfirmButton: false,
+                            timer: 2000,
+                            color: "#fff",
+                            background: "#312E38"
+                        })
+                    }
+    
+                }catch(add){
+                    if(add.response){
+                        // alert(add.response.data.message);
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'error',
+                            title: add.response.data.message,
+                            showConfirmButton: true,
+                            confirmButtonColor: "#FF9000",
+                            color: "#fff",
+                            background: "#312E38"
+                        })
+                    }else {
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'error',
+                            title: "Por favor, tente novamente!",
+                            showConfirmButton: true,
+                            confirmButtonColor: "#FF9000",
+                            color: "#fff",
+                            background: "#312E38"
+                        })
+                    }
+                }
+            }
+    
+            fetchGrupos()
+            setEmail('');
+            setIdGrupo(0);
+
+        }
+
+    }, [email])
 
 
     const handleEmailChange = (event) => {
@@ -40,20 +111,55 @@ export function NewGrupo(){
     };
     
     const handleSubmit = (event) => {
-    event.preventDefault();
-    // Faça algo com o email aqui, como enviar para o servidor
-    console.log('Email:', email);
+        event.preventDefault();
 
-    async function fetchGrupos(){
-        api.post(`/grupos/addUser?email=${email}&grupos_id=${idGrupo}`);
+   
+        async function fetchGrupos(){
+            try{
+                const add =  await api.post(`/grupos/addUser?email=${email}&grupos_id=${idGrupo}`);
 
-        alert("Email adicionado");
-    }
+                if (add.status === 200) {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Email cadastrado com sucesso',
+                        showConfirmButton: false,
+                        timer: 1500,
+                        color: "#fff",
+                        background: "#312E38"
+                    })
+                }
 
-    fetchGrupos()
-    // Limpar o input e redefinir o estado
-    setEmail('');
-    setShowInput(false);
+            }catch(add){
+                if(add.response){
+                    // alert(add.response.data.message);
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        title: add.response.data.message,
+                        showConfirmButton: true,
+                        confirmButtonColor: "#FF9000",
+                        color: "#fff",
+                        background: "#312E38"
+                    })
+                }else {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        title: "Por favor, tente novamente!",
+                        showConfirmButton: true,
+                        confirmButtonColor: "#FF9000",
+                        color: "#fff",
+                        background: "#312E38"
+                    })
+                }
+            }
+        }
+
+        fetchGrupos()
+        // Limpar o input e redefinir o estado
+        setEmail('');
+        setShowInput(false);
     };
 
 
@@ -64,20 +170,33 @@ export function NewGrupo(){
         navigate(-1);
     }
 
-    async function handleNewUser(grupo_id) {
-
-    }
 
     async function handleNewNGrupo(){
         if(!name) {
-            return alert("Digite o nome do Grupo!");
+            return Swal.fire({
+                position: 'center',
+                icon: 'warning',
+                title: "Digite o nome do grupo!",
+                showConfirmButton: true,
+                confirmButtonColor: "#FF9000",
+                color: "#fff",
+                background: "#312E38"
+            });
         }
         
         await api.post("/grupos", {
             name
         });
 
-        alert("Grupo criado!");
+        Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Grupo Criado!',
+            showConfirmButton: false,
+            timer: 1500,
+            color: "#fff",
+            background: "#312E38"
+        })
         navigate(-1);
     }
 
@@ -121,19 +240,6 @@ export function NewGrupo(){
                             ))
                         }
                     </ul>
-
-                    
-                    {showInput && (
-                        <form onSubmit={handleSubmit}>
-                        <input
-                            type="email"
-                            placeholder="Digite seu email"
-                            value={email}
-                            onChange={handleEmailChange}
-                        />
-                        <button type="submit">Enviar</button>
-                        </form>
-                    )}
                 </Grupos>
             </main>
         </Container>

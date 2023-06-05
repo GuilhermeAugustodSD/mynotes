@@ -26,6 +26,9 @@ export const Form = styled.form`
     max-width: 550px;
     margin: 38px auto;
 
+    display: flex;
+    flex-direction: column;
+
     > header {
         display: flex;
         align-items: center;
@@ -46,6 +49,7 @@ export const Form = styled.form`
         border: none;
         padding: 10px;
         border-radius: 10px;
+        width: max-content;
     }
 
 

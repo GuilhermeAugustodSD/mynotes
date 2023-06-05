@@ -17,6 +17,15 @@ export function Details() {
   function handleBack(){
     navigate(-1);
   }
+
+  const handleClick = (event) => {
+    event.preventDefault();
+    const newWindow = window.open("www.gdantasid.com");
+    const pageTitle = newWindow.document.title;
+    
+    alert(pageTitle);
+    newWindow.close();
+  };
   
   async function handleRemove(){
     const confirm = window.confirm("Deseja realmente remover a nota?");

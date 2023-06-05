@@ -11,6 +11,9 @@ import { api } from "../../services/api";
 import { useNavigate } from "react-router-dom";
 import { ButtonText } from "../../components/ButtonText";
 import { useEffect } from "react";
+import Swal from 'sweetalert2'
+
+
 export function New(){
 
     const [title, setTitle] = useState("");
@@ -72,15 +75,39 @@ export function New(){
 
     async function handleNewNote(){
         if(!title) {
-            return alert("Digite o título da nota");
+            return Swal.fire({
+                position: 'center',
+                icon: 'warning',
+                title: "Digite o título da nota!",
+                showConfirmButton: true,
+                confirmButtonColor: "#FF9000",
+                color: "#fff",
+                background: "#312E38"
+            });;
         }
         
         if(newLink) {
-            return alert("Você deixou uma Link no campo de adicionar, mas não adicionou corretamente");
+            return Swal.fire({
+                position: 'center',
+                icon: 'warning',
+                title: "Você deixou uma Link no campo de adicionar, mas não adicionou corretamente",
+                showConfirmButton: true,
+                confirmButtonColor: "#FF9000",
+                color: "#fff",
+                background: "#312E38"
+            });
         }
 
         if(newTag) {
-            return alert("Você deixou uma Tag no campo de adicionar, mas não adicionou corretamente");
+            return Swal.fire({
+                position: 'center',
+                icon: 'warning',
+                title: "Você deixou uma Tag no campo de adicionar, mas não adicionou corretamente",
+                showConfirmButton: true,
+                confirmButtonColor: "#FF9000",
+                color: "#fff",
+                background: "#312E38"
+            });
         }
         
         await api.post("/notes", {
@@ -93,7 +120,15 @@ export function New(){
             grupos_id: idGroup
         });
 
-        alert("Nota cadastrada com sucesso!");
+        Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Nota cadastrada com sucesso',
+            showConfirmButton: false,
+            timer: 2000,
+            color: "#fff",
+            background: "#312E38"
+        });
         navigate(-1);
     }
 
@@ -133,11 +168,13 @@ export function New(){
                     </select>
 
                     <Input
+                        label = "Título"
                         placeholder="Título"
                         onChange={e => setTitle(e.target.value)}
                     />
 
                     <TextArea 
+                        label = "Descrição"
                         placeholder="Observações"
                         onChange={e => setDescription(e.target.value)}
                     />
