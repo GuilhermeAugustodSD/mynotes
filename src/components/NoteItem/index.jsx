@@ -4,7 +4,6 @@ import { FiPlus, FiX } from "react-icons/fi";
 export function NoteItem({ isNew, value, onClick, ...rest}){
     return(
         <Container isNew={isNew}>
-            <label htmlFor={value}>{value}</label>
             <input 
                 type="text" 
                 value={value}

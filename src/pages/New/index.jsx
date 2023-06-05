@@ -168,13 +168,11 @@ export function New(){
                     </select>
 
                     <Input
-                        label = "Título"
                         placeholder="Título"
                         onChange={e => setTitle(e.target.value)}
                     />
 
                     <TextArea 
-                        label = "Descrição"
                         placeholder="Observações"
                         onChange={e => setDescription(e.target.value)}
                     />
