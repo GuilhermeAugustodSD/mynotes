@@ -1,13 +1,18 @@
-import { Numbers } from "@mui/icons-material"
-import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, tableCellClasses } from "@mui/material"
+import { ArrowBack, ChevronLeft, ChevronRight, Numbers, Visibility } from "@mui/icons-material"
+import { Button, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, tableCellClasses } from "@mui/material"
 import { Link } from "react-router-dom"
 import { styled } from '@mui/material/styles';
 import SearchBar from "../../SearchBar";
 import { useSelector } from "react-redux";
-
+import { DataGrid } from '@mui/x-data-grid';
+import { useEffect, useState } from "react";
+import Pagination from "../../Pagination";
 
 export default function AdminTable({ data }) {
     const [numbers, names, ids] = data
+    const [itensPerPage, setItensPerPage] = useState(10)
+    const [currrentPage, setCurremtPage] = useState(0)
+
 
     let test = []
     numbers.flatMap((item, index) =>
@@ -24,7 +29,12 @@ export default function AdminTable({ data }) {
             notesFilter: test.filter(item => item.name.match(regexp))
         }
     })
-    //console.log(numbers.reduce((a, v)=> ({ [v]: v}), {}))
+
+
+    const pages = Math.ceil(notesFilter.length / itensPerPage)
+    const startIndex = currrentPage * itensPerPage
+    const endIndex = startIndex + itensPerPage
+    const currentNotes = notesFilter.slice(startIndex, endIndex)
 
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
@@ -35,6 +45,11 @@ export default function AdminTable({ data }) {
             fontSize: 14,
         },
     }));
+
+
+    useEffect(() => {
+        setCurremtPage(0)
+    }, [itensPerPage])
 
     return (
         <>
@@ -57,7 +72,7 @@ export default function AdminTable({ data }) {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {notesFilter.map((item) => <TableRow key={item.id}>
+                        {currentNotes.map((item) => <TableRow key={item.id}>
                             <TableCell>
                                 {item.name}
                             </TableCell>
@@ -65,13 +80,27 @@ export default function AdminTable({ data }) {
                                 {item.value}
                             </TableCell>
                             <TableCell>
-                                [<Link to={`/admin/notes/view/${item.id}`}>Note</Link>]
+                                <Link to={`/admin/notes/view/${item.id}`}><IconButton>
+                                    <Visibility
+                                        sx={{ color: '#2e7d32' }}
+                                    />
+                                </IconButton>
+                                </Link>
                             </TableCell>
                         </TableRow>
                         )}
                     </TableBody>
                 </Table>
+                
             </TableContainer >
+                <Pagination 
+                    itensPerPage={itensPerPage} 
+                    pages={pages}
+                    currentPage={currrentPage} 
+                    setItensPerPage={setItensPerPage} 
+                    setCurrentPage={setCurremtPage}
+                    />
+
         </>
     )
 }

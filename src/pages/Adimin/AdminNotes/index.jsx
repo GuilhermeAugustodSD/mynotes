@@ -19,7 +19,6 @@ export default function AdminNotes() {
       const responseUsers = await api.get("/users");
       setNotes(responseNotes.data)
       setUsers(responseUsers.data)
-      //console.log(responseNotes.data)
     }
     fetchNotes();
 

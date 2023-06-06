@@ -9,15 +9,12 @@ export default function EditNote({ noteId, title, description, tag, url }) {
     const params = useParams()
 
     let [tags] = tag
-    //console.log(tags)
     let [urls] = url
     const [noteTitle, setNoteTitle] = useState(title)
     const [noteDescription, setNoteDescription] = useState(description)
     const [noteTag, setNoteTag] = useState(tags)
     const [noteUrl, setNoteUrl] = useState(urls)
 
-    console.log(noteUrl)
-    //console.log(params.userId)
 
     async function submeter(ev) {
         ev.preventDefault()
