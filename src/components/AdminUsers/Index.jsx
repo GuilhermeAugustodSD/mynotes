@@ -6,10 +6,15 @@ import { Link } from "react-router-dom";
 import { styled } from '@mui/material/styles';
 import SearchBar from "../SearchBar";
 import { useSelector } from "react-redux";
+import Pagination from "../Pagination";
 
 
 export default function UserAdmin() {
     const [users, setUsers] = useState([]);
+
+    const [itensPerPage, setItensPerPage] = useState(10)
+    const [currrentPage, setCurremtPage] = useState(0)
+
 
     useEffect(() => {
         async function fetchUsers() {
@@ -19,15 +24,19 @@ export default function UserAdmin() {
 
         fetchUsers();
     }, [])
-    console.log(users)
 
+    
     const { usersFilter } = useSelector(state => {
         const regexp = new RegExp(state.busca, 'i')
         return {
             usersFilter: users.filter(item => item.name.match(regexp))
         }
     })
-
+    
+    const pages = Math.ceil(usersFilter.length / itensPerPage)
+    const startIndex = currrentPage * itensPerPage
+    const endIndex = startIndex + itensPerPage
+    const currentNotes = usersFilter.slice(startIndex, endIndex)
 
     function deletar(id) {
         async function fetchUsers() {
@@ -76,7 +85,7 @@ export default function UserAdmin() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {usersFilter.map(user => <TableRow key={user.id}>
+                        {currentNotes.map(user => <TableRow key={user.id}>
                             <TableCell>
                                 {user.name}
                             </TableCell>
@@ -100,6 +109,13 @@ export default function UserAdmin() {
                     </TableBody>
                 </Table>
             </TableContainer>
+            <Pagination 
+                    itensPerPage={itensPerPage} 
+                    pages={pages}
+                    currentPage={currrentPage} 
+                    setItensPerPage={setItensPerPage} 
+                    setCurrentPage={setCurremtPage}
+                    />
         </>
     )
 }

@@ -6,7 +6,6 @@ import EditNote from "../../../../components/AdminEditNote"
 export default function AdminEditNote() {
 
     const params = useParams()
-    //console.log(typeof (params.userId))
 
     const notesArry = JSON.parse(localStorage.getItem('editNotesArry'))
     const [editNoteData] = notesArry.filter(arry => arry.id === Number(params.noteId))

@@ -22,15 +22,13 @@ export default function ViewUserNotes() {
         }
 
     })
-
-    console.log(notes)
+    console.log(userNotes)
 
     useEffect(() => {
         async function fetchNote() {
             const responseNotes = await api.get(`/notes/getUserNote/${params.id}`);
             const responseUsers = await api.get(`/users/${params.id}`)
 
-            console.log(responseNotes.data)
             setUserNotes((responseNotes.data));
             setUsers(...responseUsers.data)
 
