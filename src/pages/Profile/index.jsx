@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { api } from "../../services/api";
 
-import avatarPlaceHolder from "../../assets/avatar_placeholder.svg"
+import avatarPlaceHolder from "../../assets/avatar_placeholder.svg";
 
 import { useAuth } from '../../hooks/auth';
 

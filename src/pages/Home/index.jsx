@@ -9,6 +9,7 @@ import { Section } from '../../components/Section'
 import { Note } from '../../components/Note'
 import { useNavigate } from 'react-router-dom';
 import { api } from '../../services/api';
+import { useAuth } from '../../hooks/auth';
 
 export function Home() {
   const [tags, setTags] = useState([]);
@@ -20,7 +21,7 @@ export function Home() {
   const [idGrupo, setIdGrupo] = useState();
   const [grupos, setGrupos] = useState([]);
   const [gruposSelected, setGruposSelected] = useState([]);
-
+  const { user } = useAuth()
 
   const navigate = useNavigate();
 
@@ -30,6 +31,7 @@ export function Home() {
     if (tagName === "Todos") {
       return setTagsSelected([]);
     }
+
     const alreadySelected = tagsSelected.includes(tagName);
 
     if (alreadySelected) {

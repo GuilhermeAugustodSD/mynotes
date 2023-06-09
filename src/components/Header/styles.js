@@ -79,3 +79,17 @@ export const LogoGroup = styled(Link)`
     }
 
 `;
+
+export const AdmIcon = styled(Link)`
+    border: none;
+    background: none;
+    cursor: pointer;
+
+    > svg {
+        font-size: 36px;
+        width: 36px;
+        height: 36px;
+        fill: ${({ theme }) => theme.COLORS.GRAY_100};
+    }
+
+`;
