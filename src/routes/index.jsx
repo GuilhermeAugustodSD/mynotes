@@ -17,8 +17,10 @@ export function Routes() {
         <BrowserRouter>
             {user ?
                     <>
+                    <Provider store={store}>
                         <AppRoutes />
                         <AppRoutesAdmin/>
+                    </Provider>
                     </>
                 :
                 <AuthRoutes />}
