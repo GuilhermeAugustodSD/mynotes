@@ -32,7 +32,7 @@ export function Header(props) {
                     user &&
                     user.perfil == 1 ?
                     <AdmIcon to="/admin">
-                        <AiOutlineLock size={20} color="#fff"></AiOutlineLock>
+                        <AiOutlineLock size={20} color="#fff" to="/new-grupo"></AiOutlineLock>
                     </AdmIcon> :
                     ""
                 }
