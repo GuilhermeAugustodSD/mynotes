@@ -8,8 +8,9 @@ export default function AdminEditNote() {
     const params = useParams()
 
     const notesArry = JSON.parse(localStorage.getItem('editNotesArry'))
+    console.log(notesArry)
     const [editNoteData] = notesArry.filter(arry => arry.id === Number(params.noteId))
-
+    console.log(editNoteData)
     return (
         <>
             <AdminCards
@@ -23,10 +24,12 @@ export default function AdminEditNote() {
                 title={'Edit note'}
                 component={<EditNote
                     noteId={editNoteData.id}
+                    restrict = {editNoteData.restricao_nota}
                     title={editNoteData.title}
                     description={editNoteData.description}
                     tag={[editNoteData.tags]}
                     url={[editNoteData.url]}
+                    check={[editNoteData.checklist]}
                 />}
             />
         </>

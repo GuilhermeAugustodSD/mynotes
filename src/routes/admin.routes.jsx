@@ -6,6 +6,8 @@ import AdminNotes from '../pages/Adimin/AdminNotes';
 import ViewUserNotes from '../pages/Adimin/AdminNotes/ViewUserNotes';
 import AdminHome from '../pages/Adimin/DashBoard';
 import AdminEditNote from '../pages/Adimin/AdminNotes/EditUserNotes';
+import AdminTeams from '../pages/Adimin/AdminTeams';
+import AdminViewTeams from '../pages/Adimin/AdminTeams/ViewTeam';
 
 export function AppRoutesAdmin() {
   return (
@@ -16,7 +18,9 @@ export function AppRoutesAdmin() {
           <Route path='users/edit/:id' element={<EditAdmin />} />
         <Route path='notes' element={<AdminNotes />} />
           <Route path='notes/view/:id' element={<ViewUserNotes/>} />
-          <Route path='notes/edit/:userId/:noteId' element={<AdminEditNote/>} />
+          <Route path='notes/edit/:noteId' element={<AdminEditNote/>} />
+        <Route path='teams' element={<AdminTeams/>}/>
+          <Route path='team/view/:teamId' element={<AdminViewTeams/>}/>
       </Route>
     </Routes>
   );

@@ -20,7 +20,8 @@ export default function AdminHome() {
     }
     fetchUsersNotes();
   }, [])
-
+  
+  console.log(user)
   let totals = usersNotes.length
   
   return (
@@ -34,7 +35,7 @@ export default function AdminHome() {
         flexDirection={'row'}
         title={'logged user'}
         height='auto'
-        component={<ShowAdminData name={user.name} avatar={user.avatar} created={user.created_at} />}
+        component={<ShowAdminData name={user.name} avatar={user.avatar} created={user.created_at} email={user.email}/>}
       />
       
       <AdminCards

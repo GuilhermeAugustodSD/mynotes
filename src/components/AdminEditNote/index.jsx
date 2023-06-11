@@ -4,28 +4,30 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { api } from "../../services/api";
 
-export default function EditNote({ noteId, title, description, tag, url }) {
+export default function EditNote({ noteId, title, description, tag, url, check }) {
 
-    const params = useParams()
 
     let [tags] = tag
     let [urls] = url
+    let [checks] = check
     const [noteTitle, setNoteTitle] = useState(title)
     const [noteDescription, setNoteDescription] = useState(description)
     const [noteTag, setNoteTag] = useState(tags)
     const [noteUrl, setNoteUrl] = useState(urls)
+    const [noteCheck, setNoteCheck] = useState(checks)
 
 
     async function submeter(ev) {
         ev.preventDefault()
 
 
-        await api.put(`notes/${params.userId}`, {
+        await api.put(`notes/edit`, {
             noteId,
             noteTitle: noteTitle,
             noteDescription,
             noteTag,
-            noteUrl
+            noteUrl,
+            noteCheck
         })
             .then(() => {
                 alert('cadastro feito')
@@ -42,29 +44,40 @@ export default function EditNote({ noteId, title, description, tag, url }) {
 
     const handleEditTag = (id) => (ev) => {
         const arryNotes = noteTag.map((tag) => {
-            if (tag.id === id){
-                return {...tag, name: ev.target.value}
-            }else{
+            if (tag.id === id) {
+                return { ...tag, name: ev.target.value }
+            } else {
                 return tag
             }
         })
         setNoteTag(arryNotes)
-      }
+    }
 
     const handleEditUrl = (id) => (ev) => {
         const arryNotes = noteUrl.map((url) => {
-            if (url.id === id){
-                return {...url, url: ev.target.value}
-            }else{
+            if (url.id === id) {
+                return { ...url, url: ev.target.value }
+            } else {
                 return url
             }
         })
         setNoteUrl(arryNotes)
-      }
+    }
+
+    const handleEditCheck = (id) => (ev) => {
+        const arryNotes = noteCheck.map((check) => {
+            if (check.id === id) {
+                return { ...check, title: ev.target.value }
+            } else {
+                return check
+            }
+        })
+        setNoteCheck(arryNotes)
+    }
 
     return (
         <>
-            <Button onClick={handleBack}> <ArrowBack /> Go back</Button>
+            <Button onClick={handleBack} variant='contained' > <ArrowBack /> Go back</Button>
             <Box component="form" onSubmit={submeter} noValidate sx={{ mt: 1 }}>
                 <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', gap: '3%' }}>
                     <div style={{ width: '50%' }}>
@@ -90,8 +103,6 @@ export default function EditNote({ noteId, title, description, tag, url }) {
                             value={noteDescription}
                             onChange={ev => setNoteDescription(ev.target.value)}
                         />
-                    </div>
-                    <div style={{ width: '50%' }}>
                         <Typography variant="h6">Tags</Typography>
 
                         {noteTag.map(tag =>
@@ -106,6 +117,8 @@ export default function EditNote({ noteId, title, description, tag, url }) {
                                 onChange={handleEditTag(tag.id)}
                             />
                         )}
+                    </div>
+                    <div style={{ width: '50%' }}>
                         <Typography variant="h6">Urls</Typography>
                         {noteUrl.map(url =>
                             <TextField
@@ -120,11 +133,25 @@ export default function EditNote({ noteId, title, description, tag, url }) {
                                 onChange={handleEditUrl(url.id)}
                             />
                         )}
+                        <Typography variant="h6">Cheklist</Typography>
+                        {noteCheck.map(check =>
+                            <TextField
+                                sx={{ ml: '2%' }}
+                                key={check.id}
+                                margin="normal"
+                                required
+                                id={String(check.id)}
+                                autoFocus
+                                label='Check'
+                                value={check.title}
+                                onChange={handleEditCheck(check.id)}
+                            />
+                        )}
                     </div>
 
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <Button variant='outlined' color="success" type="submit">Salvar</Button>
+                    <Button variant='contained' color="success" type="submit">Salvar</Button>
                 </div>
             </Box>
         </>

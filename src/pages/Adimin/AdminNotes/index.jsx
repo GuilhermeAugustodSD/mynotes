@@ -23,6 +23,7 @@ export default function AdminNotes() {
     fetchNotes();
 
   }, [])
+  console.log(notes)
 
   const totals = notes.length
 

@@ -75,7 +75,7 @@ function actualPage(){
       return 'Dashboard'
     case '/admin/users':
       return 'Users'
-    case'/admin/notes':
+    case'/admin/teams':
       return 'Notes'
   }
 }
@@ -137,7 +137,8 @@ export default function AdminDashboard() {
             <TabsItens 
                 linkDashboard='/admin'
                 linkUser='/admin/users'
-                linkNotes='/admin/notes' />
+                linkNotes='/admin/notes' 
+                linkTeams='/admin/teams'/>
           </List>
         </Drawer>
         <Box

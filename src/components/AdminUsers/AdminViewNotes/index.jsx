@@ -1,4 +1,4 @@
-import { Delete, Edit, ExpandMore, ExpandMoreOutlined } from "@mui/icons-material"
+import { Delete, Edit, ExpandMore, ExpandMoreOutlined, Lock, LockOpen } from "@mui/icons-material"
 import { Button, Card, CardActions, CardContent, CardHeader, CardMedia, Chip, Collapse, IconButton, Typography } from "@mui/material"
 import { useState } from "react";
 import img from "../../../assets/images/bloco-de-notas.png"
@@ -9,26 +9,28 @@ import { api } from "../../../services/api";
 
 export default function AdminViewNotes({
     id,
+    restrict,
     date,
     title,
     description,
-    links,
-    tags
+    urls,
+    tags,
+    checks
 }) {
 
-    
+
     const params = useParams()
     const [expanded, setExpanded] = useState(false);
 
     function handleDeleteClick() {
-        async function fetchNotes(){
+        async function fetchNotes() {
             await api.delete(`/notes/${id}`)
-            .then(() => {
-                const oldNotes = JSON.parse(localStorage.getItem('editNotesArry'))
-                const newNotes = oldNotes.filter(note => note.id !== id)
-                localStorage.setItem('editNotesArry', JSON.stringify(newNotes))
-                alert('Nota deletada')
-            })
+                .then(() => {
+                    const oldNotes = JSON.parse(localStorage.getItem('editNotesArry'))
+                    const newNotes = oldNotes.filter(note => note.id !== id)
+                    localStorage.setItem('editNotesArry', JSON.stringify(newNotes))
+                    alert('Nota deletada')
+                })
         }
         fetchNotes()
     }
@@ -37,20 +39,39 @@ export default function AdminViewNotes({
         setExpanded(!expanded);
     };
 
-
+    console.log(urls, 'a')
 
     return (
         <Card sx={{ maxWidth: 350 }} key={id} >
-            <div style={{ display: 'flex', justifyContent: "space-between", alignItems: 'flex-start' }}>
-                <CardHeader
-                    title={title}
-                    subheader={moment(date).format('MMMM Do YYYY')}
-                />
-                <div
-                    style={{ display: 'flex', flexDirection: 'row' }}
-                >
+            <div
+                style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: "center",
+                    justifyContent: 'space-between',
+                    padding: '2%'
+                }}
+            >
+                {restrict === 0
+                    ?
+                    <Chip
+                        variant="outlined"
+                        color="success"
+                        label="Public"
+                        icon={<LockOpen color='success' />}
+                    />
+                    :
+                    <Chip
+                        variant="outlined"
+                        color="error"
+                        label="Private"
+                        icon={<Lock color='error' />}
+                    />
+                }
+                <div>
+
                     <Link
-                        to={`/admin/notes/edit/${params.id}/${id}`}
+                        to={`/admin/notes/edit/${id}`}
                     >
                         <IconButton
                             sx={{ color: '#ffb300' }}
@@ -59,10 +80,17 @@ export default function AdminViewNotes({
                     </Link>
                     <IconButton
                         onClick={handleDeleteClick}
-                        color="error" 
-                    ><Delete  />
+                        color="error"
+                    ><Delete />
                     </IconButton>
                 </div>
+
+            </div>
+            <div style={{ display: 'flex', alignItems: 'flex-start' }}>
+                <CardHeader
+                    title={title}
+                    subheader={moment(date).format('MMMM Do YYYY')}
+                />
             </div>
             <CardMedia
                 component="img"
@@ -83,6 +111,15 @@ export default function AdminViewNotes({
                     variant="outlined"
                 />)}
             </div>
+            <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: 5, padding: 5 }}>
+                {checks.map(check => <Chip
+                    key={check.id}
+                    label={check.title}
+                    color="warning"
+                    variant="outlined"
+
+                />)}
+            </div>
             <CardActions disableSpacing>
                 <ExpandMore
                     expand={expanded}
@@ -95,8 +132,8 @@ export default function AdminViewNotes({
             </CardActions>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <CardContent>
-                    {links.map(link => <Typography paragraph key={link.id}>
-                        {link.url}
+                    {urls.map(url => <Typography paragraph key={url.id}>
+                        {url.url}
                     </Typography>)}
 
                 </CardContent>

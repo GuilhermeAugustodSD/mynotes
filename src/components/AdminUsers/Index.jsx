@@ -2,43 +2,40 @@ import { useState } from "react"
 import { useEffect } from "react"
 import { api } from '../../services/api';
 import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, tableCellClasses } from "@mui/material"
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { styled } from '@mui/material/styles';
 import SearchBar from "../SearchBar";
 import { useSelector } from "react-redux";
 import Pagination from "../Pagination";
 
 
-export default function UserAdmin() {
-    const [users, setUsers] = useState([]);
+export default function UserAdmin({ prop }) {
+
+    const [users, setUsers] = useState(prop);
+    const param = useParams()
+
+    useEffect(() => {
+        setUsers(prop)
+    }, [prop])
+
 
     const [itensPerPage, setItensPerPage] = useState(10)
     const [currrentPage, setCurremtPage] = useState(0)
 
 
-    useEffect(() => {
-        async function fetchUsers() {
-            const response = await api.get("/users");
-            setUsers(response.data)
-        }
-
-        fetchUsers();
-    }, [])
-
-    
     const { usersFilter } = useSelector(state => {
         const regexp = new RegExp(state.busca, 'i')
         return {
             usersFilter: users.filter(item => item.name.match(regexp))
         }
     })
-    
+
     const pages = Math.ceil(usersFilter.length / itensPerPage)
     const startIndex = currrentPage * itensPerPage
     const endIndex = startIndex + itensPerPage
     const currentNotes = usersFilter.slice(startIndex, endIndex)
 
-    function deletar(id) {
+    function deletarUser(id) {
         async function fetchUsers() {
             await api.delete(`/users/${id}`)
                 .then(() => {
@@ -49,6 +46,19 @@ export default function UserAdmin() {
         }
         fetchUsers()
     }
+    function deletarUserFromTeam(id) {
+        async function fetchUsers() {
+            await api.delete(`grupos/del/${id}`)
+                .then(() => {
+                    const usersList = users.filter(user => user.id !== id)
+                    setUsers([...usersList])
+                    alert('Ususario deletado com sucesso')
+                })
+        }
+        fetchUsers()
+    }
+
+
 
 
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -96,12 +106,21 @@ export default function UserAdmin() {
                                 [<Link to={`/admin/users/edit/${user.id}`}>Editar</Link>]
                             </TableCell>
                             <TableCell>
-                                {<Button
-                                    color="error"
-                                    variant="outlined"
-                                    onClick={() => deletar(user.id)}
+                                { param.teamId ? 
+                                    <Button
+                                        color="error"
+                                        variant="outlined"
+                                        onClick={() => deletarUserFromTeam(user.id)}
                                     >Deletar
-                                </Button>}
+                                    </Button>
+                                    : 
+                                    <Button
+                                        color="error"
+                                        variant="outlined"
+                                        onClick={() => deletarUser(user.id)}
+                                    >Deletar
+                                    </Button>
+                                }
                             </TableCell>
 
                         </TableRow>
@@ -109,13 +128,13 @@ export default function UserAdmin() {
                     </TableBody>
                 </Table>
             </TableContainer>
-            <Pagination 
-                    itensPerPage={itensPerPage} 
-                    pages={pages}
-                    currentPage={currrentPage} 
-                    setItensPerPage={setItensPerPage} 
-                    setCurrentPage={setCurremtPage}
-                    />
+            <Pagination
+                itensPerPage={itensPerPage}
+                pages={pages}
+                currentPage={currrentPage}
+                setItensPerPage={setItensPerPage}
+                setCurrentPage={setCurremtPage}
+            />
         </>
     )
 }

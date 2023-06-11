@@ -3,6 +3,7 @@ import {Chart as Chartjs} from 'chart.js/auto';
 
 
 export default function AdminGrafic({created}){
+    //console.log(created)
     
     const [data, labels] = created
     

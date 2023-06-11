@@ -12,7 +12,7 @@ import moment from "moment/moment";
 export default function AdminUser() {
 
     const [users, setUsers] = useState([]);
-
+    console.log(users)
     useEffect(() => {
         async function fetchUsers() {
             const response = await api.get("/users");
@@ -89,7 +89,7 @@ export default function AdminUser() {
                 flexDirection={'column'}
                 height="auto"
                 title={'Users table'}
-                component={<UserAdmin/>}
+                component={<UserAdmin prop={users}/>}
             />
         </>
     );

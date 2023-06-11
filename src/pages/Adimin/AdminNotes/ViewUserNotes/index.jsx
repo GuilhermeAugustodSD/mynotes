@@ -22,7 +22,7 @@ export default function ViewUserNotes() {
         }
 
     })
-    console.log(userNotes)
+    //console.log(userNotes)
 
     useEffect(() => {
         async function fetchNote() {
@@ -39,7 +39,7 @@ export default function ViewUserNotes() {
 
    
     localStorage.setItem("editNotesArry",JSON.stringify(notes))
-
+   // console.log(notes)
 
     return (
 
@@ -58,6 +58,7 @@ export default function ViewUserNotes() {
                         name={users.name}
                         avatar={users.avatar}
                         created={users.created_at}
+                        email={users.email}
                     />
                     <SearchBar
                         label='Procurar nota'
@@ -78,13 +79,16 @@ export default function ViewUserNotes() {
                     //title={'Nota'}
                     component={<AdminViewNotes
                         id={userNote.id}
+                        restrict={userNote.restricao_nota}
                         date={userNote.created_at}
                         title={userNote.title}
                         description={userNote.description}
-                        links={userNote.url}
+                        urls={userNote.url}
                         tags={userNote.tags}
+                        checks={userNote.checklist}
                         prop={userNote}
-                    />}
+                    />
+                }
                 />
             )}
         </>

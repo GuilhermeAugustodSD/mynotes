@@ -6,7 +6,7 @@ import { api } from "../../../services/api";
 
 
 
-export default function ShowAdminData({ name, avatar, created_at }) {
+export default function ShowAdminData({ name, avatar, created_at, email }) {
 
     const avatarUrl = avatar ? `${api.defaults.baseURL}/files/${avatar}` : avatarPlaceHolder;
     const [avatarName, setAvatarName] = useState(avatarUrl);
@@ -32,6 +32,7 @@ export default function ShowAdminData({ name, avatar, created_at }) {
                 </Box>
                 <div>
                     <Typography variant="h5" color="primary">{name}</Typography>
+                    <Typography style={{fontSize: 16}} color="primary">{email}</Typography>
                     <Typography color='#82b1ff'>{moment(userCreated_at).format("MMMM Do YYYY")}</Typography>
                 </div>
             </div>

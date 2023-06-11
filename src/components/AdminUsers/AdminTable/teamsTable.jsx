@@ -8,32 +8,40 @@ import { DataGrid } from '@mui/x-data-grid';
 import { useEffect, useState } from "react";
 import Pagination from "../../Pagination";
 
-export default function AdminTable({ data }) {
-    const [numbers, names, ids] = data
+export default function AdminTeamsTable({ teams }) {
+    
+    const table = []
+
+    teams.map(team => {
+        const totalUsers = team.users.length
+        const totalNotes = team.notes.length
+
+        table.push({
+            id: team.id,
+            name: team.name,
+            totalUsers,
+            totalNotes
+        })
+       
+    })
+    
+
     const [itensPerPage, setItensPerPage] = useState(10)
     const [currrentPage, setCurremtPage] = useState(0)
 
-    let test = []
-    numbers.flatMap((item, index) =>
-        test.push({
-            id: ids[index],
-            name: names[index],
-            value: item
-        })
-    )
 
-    const { notesFilter } = useSelector(state => {
+    const { teamsFilter } = useSelector(state => {
         const regexp = new RegExp(state.busca, 'i')
         return {
-            notesFilter: test.filter(item => item.name.match(regexp))
+            teamsFilter: table.filter(item => item.name.match(regexp))
         }
     })
 
 
-    const pages = Math.ceil(notesFilter.length / itensPerPage)
+    const pages = Math.ceil(teamsFilter.length / itensPerPage)
     const startIndex = currrentPage * itensPerPage
     const endIndex = startIndex + itensPerPage
-    const currentNotes = notesFilter.slice(startIndex, endIndex)
+    const currentTeams = teamsFilter.slice(startIndex, endIndex)
 
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
@@ -50,7 +58,6 @@ export default function AdminTable({ data }) {
         setCurremtPage(0)
     }, [itensPerPage])
 
-    console.log(currentNotes)
     return (
         <>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
@@ -67,25 +74,37 @@ export default function AdminTable({ data }) {
                                 Numero de notas
                             </StyledTableCell>
                             <StyledTableCell>
+                                Numero de usuarios
+                            </StyledTableCell>
+                            <StyledTableCell>
                                 Show
+                            </StyledTableCell>
+                            <StyledTableCell>
+                                Delete
                             </StyledTableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {currentNotes.map((item) => <TableRow key={item.id}>
+                        {currentTeams.map((item) => <TableRow key={item.id}>
                             <TableCell>
                                 {item.name}
                             </TableCell>
                             <TableCell>
-                                {item.value}
+                                {item.totalNotes}
                             </TableCell>
                             <TableCell>
-                                <Link to={`/admin/notes/view/${item.id}`}><IconButton>
+                                {item.totalUsers}
+                            </TableCell>
+                            <TableCell>
+                                <Link to={`/admin/team/view/${item.id}`}><IconButton va>
                                     <Visibility
                                         sx={{ color: '#2e7d32' }}
                                     />
                                 </IconButton>
                                 </Link>
+                            </TableCell>
+                            <TableCell>
+
                             </TableCell>
                         </TableRow>
                         )}

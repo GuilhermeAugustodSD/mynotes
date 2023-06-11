@@ -7,7 +7,7 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import { Link } from 'react-router-dom';
 import { Description, Groups } from '@mui/icons-material';
 
-export default function TabsItens ({ linkDashboard, linkUser, linkNotes }) {
+export default function TabsItens ({ linkDashboard, linkUser, linkNotes, linkTeams }) {
     return(
         <>  
             <Link to={linkDashboard}>
@@ -34,7 +34,7 @@ export default function TabsItens ({ linkDashboard, linkUser, linkNotes }) {
                     <ListItemText primary="Notes" />
                 </ListItemButton>
             </Link>
-            <Link to={linkUser}>
+            <Link to={linkTeams}>
                 <ListItemButton>
                     <ListItemIcon>
                         <Groups />
