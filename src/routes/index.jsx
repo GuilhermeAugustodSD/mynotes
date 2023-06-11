@@ -16,12 +16,12 @@ export function Routes() {
     return (
         <BrowserRouter>
             {user ?
-                regExp.test(actualRoute) ?
+                    <>
                     <Provider store={store}>
+                        <AppRoutes />
                         <AppRoutesAdmin/>
                     </Provider>
-                    :
-                    <AppRoutes />
+                    </>
                 :
                 <AuthRoutes />}
         </BrowserRouter>

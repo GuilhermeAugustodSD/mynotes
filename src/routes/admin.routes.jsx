@@ -15,13 +15,16 @@ export function AppRoutesAdmin() {
       <Route path='/admin' element={<AdminDashboard />}>
         <Route index element={<AdminHome />} />
         <Route path='users' element={<AdminUser />} />
-          <Route path='users/edit/:id' element={<EditAdmin />} />
+        <Route path='users/edit/:id' element={<EditAdmin />} />
         <Route path='notes' element={<AdminNotes />} />
           <Route path='notes/view/:id' element={<ViewUserNotes/>} />
           <Route path='notes/edit/:noteId' element={<AdminEditNote/>} />
         <Route path='teams' element={<AdminTeams/>}/>
           <Route path='team/view/:teamId' element={<AdminViewTeams/>}/>
+
       </Route>
     </Routes>
+
+    
   );
 }

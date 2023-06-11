@@ -5,6 +5,8 @@ import { NewGrupo } from '../pages/NewGrupo';
 import { Home } from '../pages/Home';
 import { Details } from '../pages/Details';
 import { Profile } from '../pages/Profile';
+import { AppRoutesAdmin } from "./admin.routes";
+
 
 export function AppRoutes(){
     return(
