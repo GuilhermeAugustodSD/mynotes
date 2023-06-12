@@ -23,7 +23,7 @@ export default function AdminNotes() {
     fetchNotes();
 
   }, [])
-  console.log(notes)
+  //  console.log(notes)
 
   const totals = notes.length
 
@@ -31,18 +31,22 @@ export default function AdminNotes() {
     let usersId = []
     let usersName = []
 
-    const usersValues = Object.create(null);
+    const usersValues = [];
 
     notes.map(item => {
       if (!usersId.includes(item.user_id)) {
         usersId.push(item.user_id)
       }
-      usersValues[item.user_id] = (usersValues[item.user_id] || 0) + 1;
-    })
 
+      users.map(user => {
+        if (user.id === item.user_id) {
+          usersValues[user.name] = (usersValues[user.name] || 0) + 1;
+          if (!usersName.includes(user.name)) {
 
-    users.map(data => {
-      if (usersId.includes(data.id)) return usersName.push(data.name)
+            usersName.push(user.name)
+          }
+        }
+      })
     })
 
 

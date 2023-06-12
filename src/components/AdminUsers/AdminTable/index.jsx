@@ -12,7 +12,7 @@ export default function AdminTable({ data }) {
     const [numbers, names, ids] = data
     const [itensPerPage, setItensPerPage] = useState(10)
     const [currrentPage, setCurremtPage] = useState(0)
-
+    console.log(data)
     let test = []
     numbers.flatMap((item, index) =>
         test.push({
@@ -50,7 +50,7 @@ export default function AdminTable({ data }) {
         setCurremtPage(0)
     }, [itensPerPage])
 
-    console.log(currentNotes)
+    //console.log(currentNotes)
     return (
         <>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>

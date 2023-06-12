@@ -15,8 +15,13 @@ import Grid from '@mui/material/Grid';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import TabsItens from './TabItens';
-import { Outlet } from 'react-router-dom';
-import { Dashboard } from '@mui/icons-material';
+import { Navigate, Outlet, useNavigate } from 'react-router-dom';
+import { Dashboard, Home, Lock, LockPerson } from '@mui/icons-material';
+import { Stack, Switch } from '@mui/material';
+import { useAuth } from '../../hooks/auth';
+import { useState } from 'react';
+import { changeRoute } from '../../store/reducer/swichRoute';
+import { useDispatch, useSelector } from 'react-redux';
 
 
 const drawerWidth = 240;
@@ -65,26 +70,83 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
+
+
+const AntSwitch = styled(Switch)(({ theme }) => ({
+  width: 35,
+  height: 18,
+  padding: 0,
+  display: 'flex',
+  '&:active': {
+    '& .MuiSwitch-thumb': {
+      width: 18,
+    },
+    '& .MuiSwitch-switchBase.Mui-checked': {
+      transform: 'translateX(9px)',
+    },
+  },
+  '& .MuiSwitch-switchBase': {
+    padding: 3,
+    '&.Mui-checked': {
+      transform: 'translateX(16px)',
+      color: '#fff',
+      '& + .MuiSwitch-track': {
+        opacity: 1,
+        backgroundColor: theme.palette.mode === 'dark' ? '#00000' : 'rgba(0,0,0,.70)',
+      },
+    },
+  },
+  '& .MuiSwitch-thumb': {
+    boxShadow: '0 2px 4px 0 rgb(0 35 11 / 20%)',
+    width: 12,
+    height: 12,
+    borderRadius: 8,
+    transition: theme.transitions.create(['width'], {
+      duration: 200,
+    }),
+  },
+  '& .MuiSwitch-track': {
+    borderRadius: 16 / 2,
+    opacity: 1,
+    backgroundColor:
+      theme.palette.mode === 'dark' ? 'rgba(255,255,255,.35)' : 'rgba(0,0,0,.25)',
+    boxSizing: 'border-box',
+  },
+}));
+
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
-function actualPage(){
+function actualPage() {
   let route = window.location.pathname
-  switch (route){
+  switch (route) {
     case '/admin':
       return 'Dashboard'
     case '/admin/users':
       return 'Users'
-    case'/admin/teams':
+    case '/admin/teams':
       return 'Notes'
   }
 }
 
 export default function AdminDashboard() {
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = useState(true);
+  const { signOut, user } = useAuth()
+
+  const route = useSelector(state => state.swichRoute)
+  const navigate = useNavigate()
+  const dispach = useDispatch()
+
+  const handleChange = (event) => {
+    dispach(changeRoute(event.target.checked))
+    route ? navigate('/') : navigate('/admin')
+  };
+
+
   const toggleDrawer = () => {
     setOpen(!open);
   };
+
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -117,6 +179,22 @@ export default function AdminDashboard() {
             >
               {actualPage()}
             </Typography>
+
+            {
+              user &&
+                user.perfil == 1 ?
+                <Stack direction="row" spacing={1} alignItems="center">
+                  <Home />
+                  <AntSwitch
+                    checked={route}
+                    onChange={handleChange}
+                    inputProps={{ 'aria-label': 'ant design' }} />
+                  <LockPerson />
+                </Stack>
+                :
+                ""
+            }
+
           </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open}>
@@ -134,12 +212,13 @@ export default function AdminDashboard() {
           </Toolbar>
           <Divider />
           <List component="nav">
-            <TabsItens 
-                linkDashboard='/admin'
-                linkUser='/admin/users'
-                linkNotes='/admin/notes' 
-                linkTeams='/admin/teams'/>
+            <TabsItens
+              linkDashboard='/admin'
+              linkUser='/admin/users'
+              linkNotes='/admin/notes'
+              linkTeams='/admin/teams' />
           </List>
+
         </Drawer>
         <Box
           component="main"
@@ -156,7 +235,7 @@ export default function AdminDashboard() {
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>
-             <Outlet />
+              <Outlet />
             </Grid>
           </Container>
         </Box>

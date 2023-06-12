@@ -113,6 +113,7 @@ export default function AdminViewNotes({
             </div>
             <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: 5, padding: 5 }}>
                 {checks.map(check => <Chip
+                    style={{borderRadius: '9px'}}
                     key={check.id}
                     label={check.title}
                     color="warning"

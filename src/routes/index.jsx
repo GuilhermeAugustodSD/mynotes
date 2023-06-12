@@ -15,15 +15,15 @@ export function Routes() {
 
     return (
         <BrowserRouter>
-            {user ?
+            <Provider store={store}>
+                {user ?
                     <>
-                    <Provider store={store}>
                         <AppRoutes />
-                        <AppRoutesAdmin/>
-                    </Provider>
+                        <AppRoutesAdmin />
                     </>
-                :
-                <AuthRoutes />}
+                    :
+                    <AuthRoutes />}
+            </Provider>
         </BrowserRouter>
     );
 }
