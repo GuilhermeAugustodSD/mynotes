@@ -30,7 +30,9 @@ export default function AdminGrafic({ created, chartLabel }) {
                 labels,
                 datasets: [{
                     label: chartLabel,
-                    data: data
+                    data: data,
+                    backgroundColor: '#1E90FF'
+                    
                 }]
             })
 
