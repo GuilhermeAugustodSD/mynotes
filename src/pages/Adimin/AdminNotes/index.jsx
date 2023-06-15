@@ -43,16 +43,17 @@ export default function AdminNotes() {
       }
 
       users.map(user => {
-        if (user.id === note.user_id) {
-          usersValues[user.name] = (usersValues[user.name] || 0) + 1;
+        if (gruposIds.includes(Number(user.id))) {
+          groupValues[user.name] = (groupValues[user.name] || 0) + 1;
           if (!usersName.includes(user.name)) {
 
             usersName.push(user.name)
           }
-          return groupValues[user.name] = (groupValues[user.name] || 0) + 0;
+          return
         }
-        if (gruposIds.includes(Number(user.id))) {
-          groupValues[user.name] = (groupValues[user.name] || 0) + 1;
+
+        if (user.id === note.user_id) {
+          usersValues[user.name] = (usersValues[user.name] || 0) + 1;
           if (!usersName.includes(user.name)) {
 
             usersName.push(user.name)

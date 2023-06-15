@@ -71,7 +71,7 @@ export default function AdminTable({ data }) {
                                 Numero de notas de grupo
                             </StyledTableCell>
                             <StyledTableCell>
-                                Ver grupo
+                                Ver notas
                             </StyledTableCell>
                         </TableRow>
                     </TableHead>
