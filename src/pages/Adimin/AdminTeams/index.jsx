@@ -14,7 +14,7 @@ export default function AdminTeams() {
         async function fetchTeams() {
             const response = await api.get("/grupos/AllGroups");
             setTeams(response.data)
-            console.log(response.data)
+            console.log(response.data, 'a')
         }
         fetchTeams();
     }, [])
@@ -53,7 +53,7 @@ export default function AdminTeams() {
                 flexDirection={'row'}
                 height="auto"
                 title={'Usuarios by team'}
-                component={<AdminGrafic created={graficTeams(teams)} />}
+                component={<AdminGrafic created={graficTeams(teams)} chartLabel={'usuarios por time'}/>}
             />
 
             <AdminCards

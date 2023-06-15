@@ -1,14 +1,12 @@
 import { Typography, createTheme } from "@mui/material";
 
-export default function AdminUsersTotals({totals}){
-    
-    const theme = createTheme({
-        typography: {
-            fontSize:50
-        }
-    })
+export default function AdminUsersTotals({text='', totals ,size = 'h2'}){
+
     return(
-            <Typography variant="h2">{totals}</Typography>
+            <div>
+                <Typography>{text}</Typography>
+                <Typography variant={size}>{totals}</Typography>
+            </div>
              
     )
 }

@@ -1,12 +1,13 @@
 import { useState } from "react"
 import { useEffect } from "react"
 import { api } from '../../services/api';
-import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, tableCellClasses } from "@mui/material"
+import { Button, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, tableCellClasses } from "@mui/material"
 import { Link, useParams } from "react-router-dom";
 import { styled } from '@mui/material/styles';
 import SearchBar from "../SearchBar";
 import { useSelector } from "react-redux";
 import Pagination from "../Pagination";
+import { Delete, Edit } from "@mui/icons-material";
 
 
 export default function UserAdmin({ prop }) {
@@ -87,6 +88,9 @@ export default function UserAdmin({ prop }) {
                                 Email
                             </StyledTableCell>
                             <StyledTableCell>
+                                perfil
+                            </StyledTableCell>
+                            <StyledTableCell>
                                 Editar
                             </StyledTableCell>
                             <StyledTableCell>
@@ -103,23 +107,31 @@ export default function UserAdmin({ prop }) {
                                 {user.email}
                             </TableCell>
                             <TableCell>
-                                [<Link to={`/admin/users/edit/${user.id}`}>Editar</Link>]
+                                {user.perfil.map(per => per.perfil_name)}
                             </TableCell>
                             <TableCell>
-                                { param.teamId ? 
-                                    <Button
+                                <Link to={`/admin/users/edit/${user.id}`}>
+                                    <IconButton
+                                        sx={{ color: '#ffb300' }}
+                                    ><Edit />
+                                    </IconButton>
+                                </Link>
+                            </TableCell>
+                            <TableCell>
+                                {param.teamId ?
+                                    <IconButton
                                         color="error"
                                         variant="outlined"
                                         onClick={() => deletarUserFromTeam(user.id)}
-                                    >Deletar
-                                    </Button>
-                                    : 
-                                    <Button
+                                    ><Delete />
+                                    </IconButton>
+                                    :
+                                    <IconButton
                                         color="error"
                                         variant="outlined"
                                         onClick={() => deletarUser(user.id)}
-                                    >Deletar
-                                    </Button>
+                                    ><Delete />
+                                    </IconButton>
                                 }
                             </TableCell>
 

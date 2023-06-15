@@ -4,12 +4,13 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { api } from "../../services/api";
 
-export default function EditNote({ noteId, title, description, tag, url, check }) {
+export default function EditNote({ noteId, restrict, title, description, tag, url, check }) {
 
 
     let [tags] = tag
     let [urls] = url
     let [checks] = check
+    const [noteRestriction, setNoteRestriction] = useState(restrict)
     const [noteTitle, setNoteTitle] = useState(title)
     const [noteDescription, setNoteDescription] = useState(description)
     const [noteTag, setNoteTag] = useState(tags)

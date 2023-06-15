@@ -102,7 +102,7 @@ export default function UserAdmin({ prop }) {
                                     className='checkBox'
                                     checked={true}
                                 />}
-                                label={'s'} />
+                                label={user.perfil.map(per => per.perfil_name)}/>
                             </TableCell>
                             <TableCell>
                                 {user.name}

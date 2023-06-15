@@ -25,9 +25,8 @@ export default function AdminHome() {
     }
     fetchUsersNotes();
   }, [])
-
   let totals = usersNotes.length
-  console.log(users)
+  console.log(user.avatar)
   return (
     <>
       <AdminCards

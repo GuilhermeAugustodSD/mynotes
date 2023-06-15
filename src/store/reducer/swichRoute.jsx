@@ -1,6 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = false;
+const actualRoute = window.location.pathname;
+const regExp = /admin/mg;
+
+const initialState = regExp.test(actualRoute) ? true : false;
 
 const swichRouteSlice = createSlice({
   name: 'swichRoute',

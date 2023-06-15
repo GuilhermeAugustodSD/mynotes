@@ -6,6 +6,7 @@ import ShowAdminData from "../../../../components/AdminUsers/AdminViewUser"
 import SearchBar from "../../../../components/SearchBar"
 import { useSelector } from "react-redux"
 import { api } from "../../../../services/api"
+import AdminUsersTotals from "../../../../components/AdminUsers/AdminTotais"
 
 export default function ViewUserNotes() {
 
@@ -18,11 +19,10 @@ export default function ViewUserNotes() {
     const { notes } = useSelector(state => {
         const regexp = new RegExp(state.busca, 'i')
         return {
-            notes: userNotes.filter(item => item.user_id === Number(params.id) && item.title.match(regexp))
+            notes: userNotes.filter(item => item.title.match(regexp))
         }
 
     })
-    //console.log(userNotes)
 
     useEffect(() => {
         async function fetchNote() {
@@ -37,9 +37,11 @@ export default function ViewUserNotes() {
         fetchNote();
     }, [])
 
-   
-    localStorage.setItem("editNotesArry",JSON.stringify(notes))
-   // console.log(notes)
+
+    const totals = notes.length
+
+    localStorage.setItem("editNotesArry", JSON.stringify(notes))
+    console.log(users.avatar)
 
     return (
 
@@ -47,13 +49,13 @@ export default function ViewUserNotes() {
             <AdminCards
                 gridXs={12}
                 gridMd={12}
-                gridLg={12}
+                gridLg={10}
                 paperP={2}
                 paperDisplay={'block'}
                 flexDirection={'row'}
                 height='auto'
                 title={'User'}
-                component={<div style={{ display: 'flex', alignItems: 'center', marginRight: '10%', justifyContent: 'space-between' }}>
+                component={<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-evenly', gap:'16%' }}>
                     <ShowAdminData
                         name={users.name}
                         avatar={users.avatar}
@@ -65,6 +67,18 @@ export default function ViewUserNotes() {
                     />
                 </div>
                 }
+            />
+
+            <AdminCards
+                gridXs={2}
+                gridMd={2}
+                gridLg={2}
+                paperP={2}
+                paperDisplay={'block'}
+                flexDirection={'column'}
+                height='100%'
+                title={'Total de notas'}
+                component={<AdminUsersTotals  totals={totals} size={'h2'} />}
             />
 
             {notes.map(userNote =>
@@ -79,6 +93,7 @@ export default function ViewUserNotes() {
                     //title={'Nota'}
                     component={<AdminViewNotes
                         id={userNote.id}
+                        group={userNote.grupos_id}
                         restrict={userNote.restricao_nota}
                         date={userNote.created_at}
                         title={userNote.title}
@@ -88,7 +103,7 @@ export default function ViewUserNotes() {
                         checks={userNote.checklist}
                         prop={userNote}
                     />
-                }
+                    }
                 />
             )}
         </>

@@ -10,17 +10,17 @@ export function Routes() {
 
     const { user } = useAuth();
 
-    const actualRoute = window.location.pathname;
-    const regExp = /admin/mg;
-
     return (
         <BrowserRouter>
             <Provider store={store}>
                 {user ?
-                    <>
+                    user.perfil === 1 ?
+                        <>
+                            <AppRoutes />
+                            <AppRoutesAdmin />
+                        </>
+                        :
                         <AppRoutes />
-                        <AppRoutesAdmin />
-                    </>
                     :
                     <AuthRoutes />}
             </Provider>

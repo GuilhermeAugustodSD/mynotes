@@ -37,7 +37,6 @@ export default function AdminViewTeams() {
         )
     }
 
-
     let groupNotes = []
     {
         teams.map(team =>
@@ -46,7 +45,7 @@ export default function AdminViewTeams() {
                 )
         )
     }
-    console.log(groupNotes)
+    console.log(teams)
     localStorage.setItem("editNotesArry",JSON.stringify(groupNotes))
 
 
@@ -85,7 +84,6 @@ export default function AdminViewTeams() {
                     </div >}
             />
 
-
             {
                 teams.map(team =>
                     team.notes.map(note =>
@@ -100,6 +98,8 @@ export default function AdminViewTeams() {
                             component={<AdminViewNotes
                                 key={note.id}
                                 id={note.id}
+                                group={note.grupos_id}
+                                restrict={note.restricao_nota}
                                 date={note.created_at}
                                 title={note.title}
                                 description={note.description}

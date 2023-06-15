@@ -9,16 +9,17 @@ import { useEffect, useState } from "react";
 import Pagination from "../../Pagination";
 
 export default function AdminTable({ data }) {
-    const [numbers, names, ids] = data
+    const [numbers, names, ids, grupos] = data
     const [itensPerPage, setItensPerPage] = useState(10)
     const [currrentPage, setCurremtPage] = useState(0)
-    console.log(data)
     let test = []
+
     numbers.flatMap((item, index) =>
         test.push({
             id: ids[index],
             name: names[index],
-            value: item
+            value: item,
+            groupValues: grupos[index] 
         })
     )
 
@@ -67,7 +68,10 @@ export default function AdminTable({ data }) {
                                 Numero de notas
                             </StyledTableCell>
                             <StyledTableCell>
-                                Show
+                                Numero de notas de grupo
+                            </StyledTableCell>
+                            <StyledTableCell>
+                                Ver grupo
                             </StyledTableCell>
                         </TableRow>
                     </TableHead>
@@ -78,6 +82,9 @@ export default function AdminTable({ data }) {
                             </TableCell>
                             <TableCell>
                                 {item.value}
+                            </TableCell>
+                            <TableCell>
+                                {item.groupValues}
                             </TableCell>
                             <TableCell>
                                 <Link to={`/admin/notes/view/${item.id}`}><IconButton>

@@ -1,52 +1,57 @@
-import { Avatar, Badge, Box, Button, TextField } from "@mui/material";
+import { Avatar, Badge, Box, Button, MenuItem, Select, TextField } from "@mui/material";
 import avatarPlaceHolder from "../../assets/avatar_placeholder.svg"
 import { Profile, Container } from "../Header/styles";
 import { useEffect, useState } from "react";
-import { useAuth } from "../../hooks/auth";
 import { ArrowBack, CameraAlt } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { api } from "../../services/api";
+import { useAuth } from "../../hooks/auth";
 
-export default function AdminEditUser({ name, avatar, email, id }) {
+export default function AdminEditUser({ name, avatar, email, id, perfisTypes, perfil }) {
 
-    const { updateProfile } = useAuth()
+
+
     const [userName, setUserName] = useState(name)
     const [userEmail, setUserEmail] = useState(email)
     const [userId, setAUserId] = useState(id)
+    const [userPerfil, setAUserPerfil] = useState(perfil)
     const [adminPassword, setAdminPassword] = useState('')
+
 
     const avatarUrl = avatar ? `${api.defaults.baseURL}/files/${avatar}` : avatarPlaceHolder;
     const [avatarName, setAvatarName] = useState(avatarUrl);
     const [avatarFile, setAvatarFile] = useState(null);
 
-
-
-
+    const {user} = useAuth()
 
     async function submeter(ev) {
         ev.preventDefault()
-        
-        
-    
-       
-        /*const formData = new FormData()
-
-        formData.append('nome', userName)
-        formData.append('Email', userEmail)
 
         if (avatarFile) {
-            formData.append('avatar', avatarFile)
-        } */
+
+            const fileUpdateForm = new FormData();
+            fileUpdateForm.append("avatar", avatarFile);
+
+            const response = await api.patch(`/users/anyAvatar/${userId}`, fileUpdateForm);
+
+            avatar = response.data.avatar
+        }
+
+
 
         await api.put(`users/${userId}`, {
+            user_id: userId,
             name: userName,
             email: userEmail,
-            password: adminPassword
+            password: adminPassword,
+            loggedId: user.id, 
+            perfil: userPerfil
+
         })
             .then(() => {
                 alert('cadastro feito')
             })
-            .catch((err) => {console.log(err)})
+            .catch((err) => { alert(err.response.data.message) })
 
 
     }
@@ -70,10 +75,9 @@ export default function AdminEditUser({ name, avatar, email, id }) {
 
     return (
         <>
+            <Button onClick={handleBack} variant="contained"> <ArrowBack />Go back</Button>
 
-            <Button onClick={handleBack}> <ArrowBack /> Go back</Button>
-
-            <Box component="form" onSubmit={submeter} noValidate sx={{ mt: 1 }}>
+            <Box component="form" onSubmit={submeter} noValidate sx={{ mt: 2, display: 'flex', flexDirection: "column", alignItems: 'center' }}>
 
                 <Badge
                     overlap="circular"
@@ -81,14 +85,14 @@ export default function AdminEditUser({ name, avatar, email, id }) {
                     badgeContent={
                         <label htmlFor="avatar">
                             <TextField style={{ display: 'none' }} type="file" id='avatar' onChange={handleChangeAvatar} />
-                            <CameraAlt style={{ backgroundColor: 'orange', borderRadius: 10 }}></CameraAlt>
+                            <CameraAlt style={{ backgroundColor: 'orange', borderRadius: 10, padding: 4 }}></CameraAlt>
                         </label>
                     }
                 >
                     <Avatar
                         alt={userName}
                         src={avatarName}
-                        sx={{ width: 100, height: 100, ml: 8 }}
+                        sx={{ width: 100, height: 100 }}
                     ></Avatar>
 
                 </Badge>
@@ -113,7 +117,23 @@ export default function AdminEditUser({ name, avatar, email, id }) {
                     value={userEmail}
                     onChange={ev => setUserEmail(ev.target.value)}
                 />
+                <Select
+                    sx={{ mt: 2 }}
+                    fullWidth
+                    required
+                    value={userPerfil}
+                    label="perfil"
+                    onChange={(ev) => setAUserPerfil(ev.target.value)}
+                >
+                    {perfisTypes.map(perfil => {
+                        return <MenuItem
+                            key={perfil.id}
+                            value={perfil.id}>{perfil.perfil_name}</MenuItem>
+                    })}
+                </Select>
+
                 <TextField
+                    error
                     margin="normal"
                     required
                     fullWidth
@@ -123,7 +143,10 @@ export default function AdminEditUser({ name, avatar, email, id }) {
                     value={adminPassword}
                     onChange={ev => setAdminPassword(ev.target.value)}
                 />
-                <Button sx={{ ml: 20, mt: 2 }} variant='outlined' type="submit">Salvar</Button>
+
+                <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%', marginTop: '10px' }}>
+                    <Button variant='contained' color="success" type="submit">Salvar</Button>
+                </div>
 
             </Box>
         </>

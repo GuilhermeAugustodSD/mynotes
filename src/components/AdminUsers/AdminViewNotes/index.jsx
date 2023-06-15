@@ -1,4 +1,4 @@
-import { Delete, Edit, ExpandMore, ExpandMoreOutlined, Lock, LockOpen } from "@mui/icons-material"
+import { Delete, Edit, ExpandMore, ExpandMoreOutlined, Group, Groups, Lock, LockOpen } from "@mui/icons-material"
 import { Button, Card, CardActions, CardContent, CardHeader, CardMedia, Chip, Collapse, IconButton, Typography } from "@mui/material"
 import { useState } from "react";
 import img from "../../../assets/images/bloco-de-notas.png"
@@ -9,6 +9,7 @@ import { api } from "../../../services/api";
 
 export default function AdminViewNotes({
     id,
+    group,
     restrict,
     date,
     title,
@@ -17,7 +18,6 @@ export default function AdminViewNotes({
     tags,
     checks
 }) {
-
 
     const params = useParams()
     const [expanded, setExpanded] = useState(false);
@@ -39,7 +39,6 @@ export default function AdminViewNotes({
         setExpanded(!expanded);
     };
 
-    console.log(urls, 'a')
 
     return (
         <Card sx={{ maxWidth: 350 }} key={id} >
@@ -51,7 +50,8 @@ export default function AdminViewNotes({
                     justifyContent: 'space-between',
                     padding: '2%'
                 }}
-            >
+            >   
+            <div style={{display:'flex', alignItems: 'center', gap: '10%'}}>
                 {restrict === 0
                     ?
                     <Chip
@@ -68,6 +68,14 @@ export default function AdminViewNotes({
                         icon={<Lock color='error' />}
                     />
                 }
+                {group
+                    ?
+                    <Groups color="success" />
+                    :
+                    ''
+                }
+            </div>
+
                 <div>
 
                     <Link
@@ -113,7 +121,7 @@ export default function AdminViewNotes({
             </div>
             <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: 5, padding: 5 }}>
                 {checks.map(check => <Chip
-                    style={{borderRadius: '9px'}}
+                    style={{ borderRadius: '9px' }}
                     key={check.id}
                     label={check.title}
                     color="warning"

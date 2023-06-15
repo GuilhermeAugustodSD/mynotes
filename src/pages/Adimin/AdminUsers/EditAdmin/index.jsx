@@ -11,19 +11,25 @@ import { Button } from "@mui/material";
 export default function EditAdmin() {
 
     const [users, setUsers] = useState([]);
+    const [perfis, setPerfis] = useState([]);
+
+    console.log(users)
 
 
     const param = useParams()
 
     useEffect(() => {
-        if (param.id) {
-            api.get(`/users/${param.id}`)
-                .then((response) => {
-                    setUsers(...response.data)
-                })
-                .catch((err) => { console.log(err) })
+        async function fetchUpdateUsers() {
+            const responseUsers = await api.get(`/users/${param.id}`)
+            const responsePerfis = await api.get('/perfis/getAll')
+
+            setUsers(...responseUsers.data)
+            setPerfis(responsePerfis.data)
         }
+        fetchUpdateUsers()
+
     }, [])
+
     return (
         <>
             <AdminCards
@@ -34,7 +40,13 @@ export default function EditAdmin() {
                 flexDirection={'colum'}
                 title={'User Data'}
                 height='auto'
-                component={<AdminEditUser name={users.name} avatar={users.avatar} email={users.email} id={users.id} old_password={users.password} />}
+                component={<AdminEditUser
+                    name={users.name}
+                    avatar={users.avatar}
+                    email={users.email}
+                    id={users.id}
+                    perfisTypes={perfis}
+                    perfil={users.perfil} />}
             />
         </>
     )

@@ -23,7 +23,7 @@ export default function AdminNotes() {
     fetchNotes();
 
   }, [])
-  //  console.log(notes)
+   console.log(notes)
 
   const totals = notes.length
 
@@ -32,25 +32,39 @@ export default function AdminNotes() {
     let usersName = []
 
     const usersValues = [];
+    const groupValues = [];
 
-    notes.map(item => {
-      if (!usersId.includes(item.user_id)) {
-        usersId.push(item.user_id)
+    notes.map(note => {
+
+      const gruposIds = note.grupos.map(grup => grup.user_id)
+      
+      if (!usersId.includes(note.user_id)) {
+        usersId.push(note.user_id)
       }
 
       users.map(user => {
-        if (user.id === item.user_id) {
+        if (user.id === note.user_id) {
           usersValues[user.name] = (usersValues[user.name] || 0) + 1;
           if (!usersName.includes(user.name)) {
 
             usersName.push(user.name)
           }
+          return groupValues[user.name] = (groupValues[user.name] || 0) + 0;
         }
+        if (gruposIds.includes(Number(user.id))) {
+          groupValues[user.name] = (groupValues[user.name] || 0) + 1;
+          if (!usersName.includes(user.name)) {
+
+            usersName.push(user.name)
+          }
+        }
+
       })
+      console.log(gruposIds)
     })
 
 
-    return [Object.values(usersValues), usersName, usersId]
+    return [Object.values(usersValues), usersName, usersId, Object.values(groupValues)]
 
   }
 
@@ -66,7 +80,7 @@ export default function AdminNotes() {
         flexDirection={'row'}
         height='auto'
         title={'Notas por usuario'}
-        component={<AdminGrafic created={displayGrafic(notes)} />}
+        component={<AdminGrafic created={displayGrafic(notes)} chartLabel={'notas de usuario'} />}
       />
       <AdminCards
         gridXs={12}
@@ -86,7 +100,7 @@ export default function AdminNotes() {
         paperDisplay={'block'}
         flexDirection={'column'}
         height="auto"
-        title={'Notes by user'}
+        title={'Tabela de notas por usuário'}
         component={<AdminTable data={displayGrafic(notes)} />}
       />
 

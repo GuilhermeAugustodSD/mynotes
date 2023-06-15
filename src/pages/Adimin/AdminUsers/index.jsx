@@ -66,7 +66,7 @@ export default function AdminUser() {
                 flexDirection={'row'}
                 height="auto"
                 title={'Grafico de usuários'}
-                component={<AdminGrafic created={displayMonths(users)} />}
+                component={<AdminGrafic created={displayMonths(users)} chartLabel={'usuarios criados'} />}
             />
 
             <AdminCards

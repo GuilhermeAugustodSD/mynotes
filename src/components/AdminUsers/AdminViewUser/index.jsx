@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import avatarPlaceHolder from "../../../assets/avatar_placeholder.svg"
 import { Avatar, Badge, Box, Typography } from "@mui/material";
 import moment from "moment";
@@ -13,6 +13,8 @@ export default function ShowAdminData({ name, avatar, created_at, email }) {
     const [userName, setUserName] = useState(name)
     const [userCreated_at, setUserCreated_at] = useState(created_at)
 
+    useEffect(() => {
+    },[avatar])
 
     return (
         <>
