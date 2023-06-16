@@ -18,7 +18,7 @@ export function AppRoutesAdmin() {
         <Route path='users/edit/:id' element={<EditAdmin />} />
         <Route path='notes' element={<AdminNotes />} />
           <Route path='notes/view/:id' element={<ViewUserNotes/>} />
-          <Route path='notes/edit/:noteId' element={<AdminEditNote/>} />
+          <Route path='notes/edit/:userId/:noteId' element={<AdminEditNote/>} />
         <Route path='teams' element={<AdminTeams/>}/>
           <Route path='team/view/:teamId' element={<AdminViewTeams/>}/>
 

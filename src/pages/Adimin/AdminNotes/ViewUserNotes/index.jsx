@@ -93,6 +93,7 @@ export default function ViewUserNotes() {
                     //title={'Nota'}
                     component={<AdminViewNotes
                         id={userNote.id}
+                        noteUserId={userNote.user_id}
                         group={userNote.grupos_id}
                         restrict={userNote.restricao_nota}
                         date={userNote.created_at}

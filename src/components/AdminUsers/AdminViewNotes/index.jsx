@@ -1,4 +1,4 @@
-import { Delete, Edit, ExpandMore, ExpandMoreOutlined, Group, Groups, Lock, LockOpen } from "@mui/icons-material"
+import { Boy, Delete, Edit, ExpandMore, ExpandMoreOutlined, Group, Groups, Lock, LockOpen } from "@mui/icons-material"
 import { Button, Card, CardActions, CardContent, CardHeader, CardMedia, Chip, Collapse, IconButton, Typography } from "@mui/material"
 import { useState } from "react";
 import img from "../../../assets/images/bloco-de-notas.png"
@@ -9,6 +9,7 @@ import { api } from "../../../services/api";
 
 export default function AdminViewNotes({
     id,
+    noteUserId,
     group,
     restrict,
     date,
@@ -50,36 +51,42 @@ export default function AdminViewNotes({
                     justifyContent: 'space-between',
                     padding: '2%'
                 }}
-            >   
-            <div style={{display:'flex', alignItems: 'center', gap: '10%'}}>
-                {restrict === 0
-                    ?
-                    <Chip
-                        variant="outlined"
-                        color="success"
-                        label="Public"
-                        icon={<LockOpen color='success' />}
-                    />
-                    :
-                    <Chip
-                        variant="outlined"
-                        color="error"
-                        label="Private"
-                        icon={<Lock color='error' />}
-                    />
-                }
-                {group
-                    ?
-                    <Groups color="success" />
-                    :
-                    ''
-                }
-            </div>
+            >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10%' }}>
+                    {restrict === 0
+                        ?
+                        <Chip
+                            variant="outlined"
+                            color="success"
+                            label="Public"
+                            icon={<LockOpen color='success' />}
+                        />
+                        :
+                        <Chip
+                            variant="outlined"
+                            color="error"
+                            label="Private"
+                            icon={<Lock color='error' />}
+                        />
+                    }
+                    {noteUserId === Number(params.id)
+                        ?
+                        <Boy sx={{color: "#a9a9a9"}}/>
+                        :
+                        ''
+                    }
+                    {group
+                        ?
+                        <Groups color="success" />
+                        :
+                        ''
+                    }
+                </div>
 
                 <div>
 
                     <Link
-                        to={`/admin/notes/edit/${id}`}
+                        to={`/admin/notes/edit/${params.id}/${id}`}
                     >
                         <IconButton
                             sx={{ color: '#ffb300' }}

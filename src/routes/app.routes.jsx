@@ -6,6 +6,7 @@ import { Home } from '../pages/Home';
 import { Details } from '../pages/Details';
 import { Profile } from '../pages/Profile';
 import { AppRoutesAdmin } from "./admin.routes";
+import { Edit } from '../pages/Edit';
 
 
 export function AppRoutes(){
@@ -16,6 +17,7 @@ export function AppRoutes(){
             <Route path='/new-grupo' element={<NewGrupo />} />
             <Route path='/profile' element={<Profile />} />
             <Route path='/Details/:id' element={<Details />} />
+            <Route path='/Edit/:id' element={<Edit />} />
         </Routes>
     );
 }

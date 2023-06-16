@@ -4,8 +4,6 @@ import { api } from '../../../services/api'
 import AdminUsersTotals from "../../../components/AdminUsers/AdminTotais";
 import AdminGrafic from "../../../components/AdminUsers/AdminGrafic";
 import AdminTable from "../../../components/AdminUsers/AdminTable";
-import SearchBar from "../../../components/SearchBar";
-import { useSelector } from "react-redux";
 
 
 export default function AdminNotes() {

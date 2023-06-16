@@ -16,12 +16,8 @@ export const Container = styled.div`
 
         padding: 64px 0;
 
-        div{
-            display: flex;
-            gap: 2%;
-            justify-content: flex-end;
-        }
     }
+   
 `;
 
 export const Links = styled.ul`
@@ -51,6 +47,7 @@ export const Content = styled.div`
     margin: 0 auto;
     display: flex;
     flex-direction: column;
+
 
     > button:first-child {
         align-self: end;
