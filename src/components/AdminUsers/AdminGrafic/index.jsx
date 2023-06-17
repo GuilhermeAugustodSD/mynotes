@@ -2,7 +2,7 @@ import { Bar } from 'react-chartjs-2'
 import { Chart as Chartjs } from 'chart.js/auto';
 
 
-export default function AdminGrafic({ created, chartLabel }) {
+export default function AdminGrafic({ created, chartLabel, secondLabel }) {
     //console.log(created)
 
     const [data, labels, userIds, datas] = created
@@ -19,7 +19,7 @@ export default function AdminGrafic({ created, chartLabel }) {
                     data: data,
                     backgroundColor: '#1E90FF'
                 }, {
-                    label: 'notas de grupo',
+                    label: secondLabel,
                     data: datas,
                     backgroundColor: '#EE82EE'
                 }],

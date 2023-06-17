@@ -124,8 +124,10 @@ function actualPage() {
       return 'Dashboard'
     case '/admin/users':
       return 'Users'
-    case '/admin/teams':
+    case '/admin/notes':
       return 'Notes'
+    case '/admin/teams':
+      return 'Teams'
   }
 }
 

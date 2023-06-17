@@ -5,6 +5,7 @@ import img from "../../../assets/images/bloco-de-notas.png"
 import moment from "moment";
 import { Link, useParams } from "react-router-dom";
 import { api } from "../../../services/api";
+import Swal from "sweetalert2";
 
 
 export default function AdminViewNotes({
@@ -24,16 +25,32 @@ export default function AdminViewNotes({
     const [expanded, setExpanded] = useState(false);
 
     function handleDeleteClick() {
-        async function fetchNotes() {
-            await api.delete(`/notes/${id}`)
-                .then(() => {
-                    const oldNotes = JSON.parse(localStorage.getItem('editNotesArry'))
-                    const newNotes = oldNotes.filter(note => note.id !== id)
-                    localStorage.setItem('editNotesArry', JSON.stringify(newNotes))
-                    alert('Nota deletada')
-                })
-        }
-        fetchNotes()
+
+
+        Swal.fire({
+            title: 'Deseja deletar nota?',
+            showDenyButton: true,
+            confirmButtonColor: '#228B22',
+            showCancelButton: false,
+            confirmButtonText: 'Deletar',
+            denyButtonText: `Cancelar`,
+        }).then(result => {
+            
+            if (result.isConfirmed) {
+                async function fetchNotes() {
+                    await api.delete(`/notes/${id}`)
+                        .then(() => {
+                            const oldNotes = JSON.parse(localStorage.getItem('editNotesArry'))
+                            const newNotes = oldNotes.filter(note => note.id !== id)
+                            localStorage.setItem('editNotesArry', JSON.stringify(newNotes))
+                        })
+                }
+                fetchNotes()
+
+            }
+        
+        })
+
     }
 
     const handleExpandClick = () => {

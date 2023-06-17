@@ -21,7 +21,7 @@ export default function AdminNotes() {
     fetchNotes();
 
   }, [])
-   console.log(notes)
+  console.log(notes)
 
   const totals = notes.length
 
@@ -35,7 +35,7 @@ export default function AdminNotes() {
     notes.map(note => {
 
       const gruposIds = note.grupos.map(grup => grup.user_id)
-      
+
       if (!usersId.includes(note.user_id)) {
         usersId.push(note.user_id)
       }
@@ -79,7 +79,11 @@ export default function AdminNotes() {
         flexDirection={'row'}
         height='auto'
         title={'Notas por usuario'}
-        component={<AdminGrafic created={displayGrafic(notes)} chartLabel={'notas de usuario'} />}
+        component={<AdminGrafic
+          created={displayGrafic(notes)}
+          chartLabel={'notas de usuario'}
+          secondLabel={'notas de grupo'}
+        />}
       />
       <AdminCards
         gridXs={12}

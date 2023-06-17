@@ -54,15 +54,7 @@ export default function AdminHome() {
 
       />
 
-      <AdminCards
-        gridXs={12}
-        paperP={2}
-        paperDisplay={'block'}
-        flexDirection={'column'}
-        height="auto"
-        title={'Conceder Acesso'}
-        component={<PerfilTable prop={users} />}
-      />
+      
     </>
   );
 }

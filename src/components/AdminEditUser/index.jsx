@@ -6,6 +6,7 @@ import { ArrowBack, CameraAlt } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { api } from "../../services/api";
 import { useAuth } from "../../hooks/auth";
+import Swal from "sweetalert2";
 
 export default function AdminEditUser({ name, avatar, email, id, perfisTypes, perfil }) {
 
@@ -49,10 +50,40 @@ export default function AdminEditUser({ name, avatar, email, id, perfisTypes, pe
 
         })
             .then(() => {
-                alert('cadastro feito')
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'bottom-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                })
+                
+                Toast.fire({
+                    iconColor:"white", 
+                    icon: 'success',
+                    title: 'Usuario atualizado',
+                    background: '#a5dc86'
+                  })
+                
+                navigate(-1)
+               
             })
-            .catch((err) => { alert(err.response.data.message) })
-
+            .catch((err) => { 
+                
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    title: err.response.data.message,
+                    showConfirmButton: true,
+                    color: "#111111",
+                    background: "#ffffff"
+                })
+             })
 
     }
 

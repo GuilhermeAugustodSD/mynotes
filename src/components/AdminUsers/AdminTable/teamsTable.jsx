@@ -1,4 +1,4 @@
-import { ArrowBack, ChevronLeft, ChevronRight, Numbers, Visibility } from "@mui/icons-material"
+import { ArrowBack, ChevronLeft, ChevronRight, Delete, Numbers, Visibility } from "@mui/icons-material"
 import { Button, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, tableCellClasses } from "@mui/material"
 import { Link } from "react-router-dom"
 import { styled } from '@mui/material/styles';
@@ -7,10 +7,13 @@ import { useSelector } from "react-redux";
 import { DataGrid } from '@mui/x-data-grid';
 import { useEffect, useState } from "react";
 import Pagination from "../../Pagination";
+import { api } from "../../../services/api";
+import Swal from "sweetalert2";
 
-export default function AdminTeamsTable({ teams }) {
-    
+export default function AdminTeamsTable({ teams, setTeams }) {
+
     const table = []
+
 
     teams.map(team => {
         const totalUsers = team.users.length
@@ -22,9 +25,9 @@ export default function AdminTeamsTable({ teams }) {
             totalUsers,
             totalNotes
         })
-       
+
     })
-    
+
 
     const [itensPerPage, setItensPerPage] = useState(10)
     const [currrentPage, setCurremtPage] = useState(0)
@@ -53,6 +56,30 @@ export default function AdminTeamsTable({ teams }) {
         },
     }));
 
+
+    function deleteTeam(TeamId) {
+
+        Swal.fire({
+            title: 'Deseja deletar nota?',
+            showDenyButton: true,
+            confirmButtonColor: '#228B22',
+            showCancelButton: false,
+            confirmButtonText: 'Deletar',
+            denyButtonText: `Cancelar`,
+        }).then(result => {
+            if (result.isConfirmed) {
+
+                async function fetchTeams() {
+                    await api.delete(`grupos/delTeam/${TeamId}`)
+                        .then(() => {
+                            const usersList = teams.filter(team => team.id !== TeamId)
+                            setTeams([...usersList])
+                        })
+                }
+                fetchTeams()
+            }
+        })
+    }
 
     useEffect(() => {
         setCurremtPage(0)
@@ -104,21 +131,23 @@ export default function AdminTeamsTable({ teams }) {
                                 </Link>
                             </TableCell>
                             <TableCell>
-
+                                <Delete
+                                    color="error"
+                                    onClick={() => deleteTeam(item.id)} />
                             </TableCell>
                         </TableRow>
                         )}
                     </TableBody>
                 </Table>
-                
+
             </TableContainer >
-                <Pagination 
-                    itensPerPage={itensPerPage} 
-                    pages={pages}
-                    currentPage={currrentPage} 
-                    setItensPerPage={setItensPerPage} 
-                    setCurrentPage={setCurremtPage}
-                    />
+            <Pagination
+                itensPerPage={itensPerPage}
+                pages={pages}
+                currentPage={currrentPage}
+                setItensPerPage={setItensPerPage}
+                setCurrentPage={setCurremtPage}
+            />
 
         </>
     )

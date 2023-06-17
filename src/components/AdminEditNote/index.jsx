@@ -4,6 +4,7 @@ import { Box, Button, MenuItem, Select, Stack, Switch, TextField, Typography } f
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { api } from "../../services/api";
+import Swal from "sweetalert2";
 
 
 
@@ -31,8 +32,8 @@ export default function EditNote({
     const [noteTag, setNoteTag] = useState(tags)
     const [noteUrl, setNoteUrl] = useState(urls)
     const [noteCheck, setNoteCheck] = useState(checks)
-
-
+    
+    const navigate = useNavigate();     
 
     async function submeter(ev) {
         ev.preventDefault()
@@ -51,13 +52,32 @@ export default function EditNote({
             noteTeam
         })
             .then(() => {
-                alert('cadastro feito')
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'bottom-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                })
+                
+                Toast.fire({
+                    iconColor:"white", 
+                    icon: 'success',
+                    title: 'Nota salva',
+                    background: '#a5dc86'
+                  })
+                
+                navigate(-1)
             })
             .catch((err) => { console.log(err) })
     }
 
 
-    const navigate = useNavigate();
 
     function handleBack() {
         navigate(-1);

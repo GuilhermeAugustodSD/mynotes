@@ -8,6 +8,7 @@ import SearchBar from "../SearchBar";
 import { useSelector } from "react-redux";
 import Pagination from "../Pagination";
 import { Delete, Edit } from "@mui/icons-material";
+import Swal from "sweetalert2";
 
 
 export default function UserAdmin({ prop }) {
@@ -37,26 +38,54 @@ export default function UserAdmin({ prop }) {
     const currentNotes = usersFilter.slice(startIndex, endIndex)
 
     function deletarUser(id) {
-        async function fetchUsers() {
-            await api.delete(`/users/${id}`)
-                .then(() => {
-                    const usersList = users.filter(user => user.id !== id)
-                    setUsers([...usersList])
-                    alert('Ususario deletado com sucesso')
-                })
-        }
-        fetchUsers()
+
+        Swal.fire({
+            title: 'Deseja deletar usuário?',
+            showDenyButton: true,
+            confirmButtonColor: '#228B22',
+            showCancelButton: false,
+            confirmButtonText: 'Deletar',
+            denyButtonText: `Cancelar`,
+        }).then(result => {
+
+            if (result.isConfirmed) {
+                async function fetchUsers() {
+                    await api.delete(`/users/${id}`)
+                        .then(() => {
+                            const usersList = users.filter(user => user.id !== id)
+                            setUsers([...usersList])
+                        })
+                }
+                fetchUsers()
+            }
+        })
     }
+
     function deletarUserFromTeam(id) {
-        async function fetchUsers() {
-            await api.delete(`grupos/del/${id}`)
-                .then(() => {
-                    const usersList = users.filter(user => user.id !== id)
-                    setUsers([...usersList])
-                    alert('Ususario deletado com sucesso')
-                })
-        }
-        fetchUsers()
+
+        Swal.fire({
+            title: 'Deseja deletar usuário?',
+            showDenyButton: true,
+            confirmButtonColor: '#228B22',
+            showCancelButton: false,
+            confirmButtonText: 'Deletar',
+            denyButtonText: `Cancelar`,
+        }).then(result => {
+            
+            if (result.isConfirmed) {
+                async function fetchUsers() {
+                    await api.delete(`grupos/del/${id}`)
+                        .then(() => {
+                            const usersList = users.filter(user => user.id !== id)
+                            setUsers([...usersList])
+                        })
+                }
+                fetchUsers()
+            }
+
+        })
+
+
     }
 
 

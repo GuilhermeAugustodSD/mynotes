@@ -20,26 +20,29 @@ export default function AdminTeams() {
     }, [])
 
     let totals = teams.length
-    
-    function graficTeams(data){
-     const qnt = []
-     const teamNames = []  
+
+    function graficTeams(data) {
+        const qntNotas = []
+        const nada = []
+        const qntUsers = []
+        const teamNames = []
 
         const order = (data.sort((a, b) => {
-            if (b.users.length < a.users.length){
+            if (b.users.length < a.users.length) {
                 return -1
-            } else{
+            } else {
                 return 1
             }
         }))
-        
+
         order.map(item => {
-            qnt.push(item.users.length)
+            qntUsers.push(item.users.length)
+            qntNotas.push(item.notes.length)
             teamNames.push(item.name)
 
         })
         //console.log(teamNames)
-        return[qnt, teamNames]
+        return [qntNotas, teamNames, nada, qntUsers]
     }
 
     return (
@@ -52,8 +55,12 @@ export default function AdminTeams() {
                 paperDisplay={'block'}
                 flexDirection={'row'}
                 height="auto"
-                title={'Usuarios by team'}
-                component={<AdminGrafic created={graficTeams(teams)} chartLabel={'usuarios por time'}/>}
+                title={'Grafico de notas'}
+                component={<AdminGrafic
+                    created={graficTeams(teams)}
+                    chartLabel={'Notas por grupo'}
+                    secondLabel={'usuarios por grupo'}
+                />}
             />
 
             <AdminCards
@@ -64,7 +71,7 @@ export default function AdminTeams() {
                 paperDisplay={'block'}
                 flexDirection={'column'}
                 height={240}
-                title={'Total of Teams'}
+                title={'Total de grupos'}
                 component={<AdminUsersTotals totals={totals} />}
             />
 
@@ -76,7 +83,7 @@ export default function AdminTeams() {
                 flexDirection={'column'}
                 height="auto"
                 title={'Teams table'}
-                component={<AdminTeamsTable teams={teams}/>}
+                component={<AdminTeamsTable teams={teams} setTeams={setTeams} />}
             />
         </>
     )
