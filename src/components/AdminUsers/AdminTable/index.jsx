@@ -1,4 +1,4 @@
-import { ArrowBack, ChevronLeft, ChevronRight, Numbers, Visibility } from "@mui/icons-material"
+import { Visibility } from "@mui/icons-material"
 import { Button, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, tableCellClasses } from "@mui/material"
 import { Link } from "react-router-dom"
 import { styled } from '@mui/material/styles';
@@ -19,22 +19,16 @@ export default function AdminTable({ data }) {
             id: ids[index],
             name: names[index],
             value: item,
-            groupValues: grupos[index] 
+            groupValues: grupos[index]
         })
     )
 
-    const { notesFilter } = useSelector(state => {
-        const regexp = new RegExp(state.busca, 'i')
-        return {
-            notesFilter: test.filter(item => item.name.match(regexp))
-        }
-    })
 
 
-    const pages = Math.ceil(notesFilter.length / itensPerPage)
+    const pages = Math.ceil(test.length / itensPerPage)
     const startIndex = currrentPage * itensPerPage
     const endIndex = startIndex + itensPerPage
-    const currentNotes = notesFilter.slice(startIndex, endIndex)
+    const currentNotes = test.slice(startIndex, endIndex)
 
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
@@ -54,9 +48,7 @@ export default function AdminTable({ data }) {
     //console.log(currentNotes)
     return (
         <>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
-                <SearchBar label='Search user' />
-            </div>
+         
             <TableContainer style={{ marginTop: '2%' }}>
                 <Table>
                     <TableHead>
@@ -98,15 +90,15 @@ export default function AdminTable({ data }) {
                         )}
                     </TableBody>
                 </Table>
-                
+
             </TableContainer >
-                <Pagination 
-                    itensPerPage={itensPerPage} 
-                    pages={pages}
-                    currentPage={currrentPage} 
-                    setItensPerPage={setItensPerPage} 
-                    setCurrentPage={setCurremtPage}
-                    />
+            <Pagination
+                itensPerPage={itensPerPage}
+                pages={pages}
+                currentPage={currrentPage}
+                setItensPerPage={setItensPerPage}
+                setCurrentPage={setCurremtPage}
+            />
 
         </>
     )

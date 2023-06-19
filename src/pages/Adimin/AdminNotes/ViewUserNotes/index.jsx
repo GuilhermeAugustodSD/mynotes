@@ -41,7 +41,6 @@ export default function ViewUserNotes() {
     const totals = notes.length
 
     localStorage.setItem("editNotesArry", JSON.stringify(notes))
-    console.log(users.avatar)
 
     return (
 
@@ -55,7 +54,7 @@ export default function ViewUserNotes() {
                 flexDirection={'row'}
                 height='auto'
                 title={'User'}
-                component={<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-evenly', gap:'16%' }}>
+                component={<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap' }}>
                     <ShowAdminData
                         name={users.name}
                         avatar={users.avatar}
@@ -70,8 +69,8 @@ export default function ViewUserNotes() {
             />
 
             <AdminCards
-                gridXs={2}
-                gridMd={2}
+                gridXs={12}
+                gridMd={12}
                 gridLg={2}
                 paperP={2}
                 paperDisplay={'block'}
@@ -83,8 +82,8 @@ export default function ViewUserNotes() {
 
             {notes.map(userNote =>
                 <AdminCards key={userNote.id}
-                    gridXs={5}
-                    gridMd={4}
+                    gridXs={6}
+                    gridMd={6}
                     gridLg={4}
                     paperP={2}
                     paperDisplay={'block'}

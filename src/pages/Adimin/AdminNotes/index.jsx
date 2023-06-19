@@ -4,6 +4,8 @@ import { api } from '../../../services/api'
 import AdminUsersTotals from "../../../components/AdminUsers/AdminTotais";
 import AdminGrafic from "../../../components/AdminUsers/AdminGrafic";
 import AdminTable from "../../../components/AdminUsers/AdminTable";
+import SearchBar from "../../../components/SearchBar";
+import { useSelector } from "react-redux";
 
 
 export default function AdminNotes() {
@@ -21,7 +23,17 @@ export default function AdminNotes() {
     fetchNotes();
 
   }, [])
-  console.log(notes)
+
+
+  const { usersFilter } = useSelector(state => {
+    const regexp = new RegExp(state.busca, 'i')
+    return {
+      usersFilter: users.filter(item => item.name.match(regexp))
+    }
+  })
+
+
+
 
   const totals = notes.length
 
@@ -40,7 +52,7 @@ export default function AdminNotes() {
         usersId.push(note.user_id)
       }
 
-      users.map(user => {
+      usersFilter.map(user => {
         if (gruposIds.includes(Number(user.id))) {
           groupValues[user.name] = (groupValues[user.name] || 0) + 1;
           if (!usersName.includes(user.name)) {
@@ -59,7 +71,6 @@ export default function AdminNotes() {
         }
 
       })
-      console.log(gruposIds)
     })
 
 
@@ -104,7 +115,14 @@ export default function AdminNotes() {
         flexDirection={'column'}
         height="auto"
         title={'Tabela de notas por usuário'}
-        component={<AdminTable data={displayGrafic(notes)} />}
+        component={
+          <>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
+              <SearchBar label='Search user' />
+            </div>
+            <AdminTable data={displayGrafic(notes)} />
+          </>
+        }
       />
 
     </>

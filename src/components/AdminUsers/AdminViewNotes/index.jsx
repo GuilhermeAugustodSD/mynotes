@@ -35,7 +35,7 @@ export default function AdminViewNotes({
             confirmButtonText: 'Deletar',
             denyButtonText: `Cancelar`,
         }).then(result => {
-            
+
             if (result.isConfirmed) {
                 async function fetchNotes() {
                     await api.delete(`/notes/${id}`)
@@ -48,7 +48,7 @@ export default function AdminViewNotes({
                 fetchNotes()
 
             }
-        
+
         })
 
     }
@@ -88,7 +88,7 @@ export default function AdminViewNotes({
                     }
                     {noteUserId === Number(params.id)
                         ?
-                        <Boy sx={{color: "#a9a9a9"}}/>
+                        <Boy sx={{ color: "#a9a9a9" }} />
                         :
                         ''
                     }

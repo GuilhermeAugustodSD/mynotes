@@ -13,7 +13,7 @@ export default function AdminEditNote() {
     const [editNoteData] = notesArry.filter(arry => arry.id === Number(params.noteId))
 
     const [userGrupos, setUsergrups] = useState([])
-    console.log(editNoteData)
+
     useEffect(() => {
         async function fetchUserGroups() {
            const response = await api.get(`/grupos/gruposUsers/${params.userId}`);

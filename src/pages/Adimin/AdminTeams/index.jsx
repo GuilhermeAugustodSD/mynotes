@@ -4,6 +4,7 @@ import { api } from "../../../services/api";
 import AdminUsersTotals from "../../../components/AdminUsers/AdminTotais";
 import AdminTeamsTable from "../../../components/AdminUsers/AdminTable/teamsTable";
 import AdminGrafic from "../../../components/AdminUsers/AdminGrafic";
+import { useSelector } from "react-redux";
 
 export default function AdminTeams() {
 
@@ -18,6 +19,14 @@ export default function AdminTeams() {
         }
         fetchTeams();
     }, [])
+
+    
+    const { teamsFilter } = useSelector(state => {
+        const regexp = new RegExp(state.busca, 'i')
+        return {
+            teamsFilter: teams.filter(item => item.name.match(regexp))
+        }
+    })
 
     let totals = teams.length
 
@@ -57,7 +66,7 @@ export default function AdminTeams() {
                 height="auto"
                 title={'Grafico de notas'}
                 component={<AdminGrafic
-                    created={graficTeams(teams)}
+                    created={graficTeams(teamsFilter)}
                     chartLabel={'Notas por grupo'}
                     secondLabel={'usuarios por grupo'}
                 />}
@@ -83,7 +92,7 @@ export default function AdminTeams() {
                 flexDirection={'column'}
                 height="auto"
                 title={'Teams table'}
-                component={<AdminTeamsTable teams={teams} setTeams={setTeams} />}
+                component={<AdminTeamsTable teams={teamsFilter} setTeams={setTeams} />}
             />
         </>
     )

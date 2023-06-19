@@ -33,18 +33,10 @@ export default function AdminTeamsTable({ teams, setTeams }) {
     const [currrentPage, setCurremtPage] = useState(0)
 
 
-    const { teamsFilter } = useSelector(state => {
-        const regexp = new RegExp(state.busca, 'i')
-        return {
-            teamsFilter: table.filter(item => item.name.match(regexp))
-        }
-    })
-
-
-    const pages = Math.ceil(teamsFilter.length / itensPerPage)
+    const pages = Math.ceil(table.length / itensPerPage)
     const startIndex = currrentPage * itensPerPage
     const endIndex = startIndex + itensPerPage
-    const currentTeams = teamsFilter.slice(startIndex, endIndex)
+    const currentTeams = table.slice(startIndex, endIndex)
 
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
