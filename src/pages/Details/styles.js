@@ -16,7 +16,7 @@ export const Container = styled.div`
 
         padding: 64px 0;
 
-        div{
+        .botoes{
             display: flex;
             gap: 2%;
             justify-content: flex-end;
@@ -42,6 +42,7 @@ export const Checklist = styled.div`
     justify-content: space-between;
     align-items: center;
     gap: 12px;
+    width: 100%;
 
     
 `;
