@@ -30,7 +30,6 @@ export default function EditAdmin() {
             const responseGrupos = await api.get(`/grupos/gruposUsers/${param.id}`);
 
 
-
             setUsers(...responseUsers.data)
             setPerfis(responsePerfis.data)
             setNotes(Object.values(responseNotes.data))
@@ -43,7 +42,7 @@ export default function EditAdmin() {
 
     }, [])
 
-    console.log(userGrupos)
+    console.log(perfis)
     let totals = notes.length
 
     return (
