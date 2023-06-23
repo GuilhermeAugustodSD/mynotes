@@ -218,7 +218,7 @@ export function Edit() {
                             <Select
                                 success
                                 key={1}
-                                sx={{ mt: 2, background: 'rgb(35, 33, 41)', color: 'rgb(244, 237, 232)'}}
+                                sx={{ mt: 2, background: 'rgb(1, 21, 38)', color: 'rgb(244, 237, 232)'}}
                                 required
                                 fullWidth
                                 value={noteTeam}

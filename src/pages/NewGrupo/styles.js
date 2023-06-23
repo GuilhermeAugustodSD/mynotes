@@ -66,7 +66,7 @@ export const Grupos = styled.div`
 
     .grupo {
         margin-bottom: 12px;
-        background-color: #232129;
+        background-color: ${({ theme }) => theme.COLORS.BACKGROUND_900};
         color: #F4EDE8;
         border: none;
         padding: 10px;
