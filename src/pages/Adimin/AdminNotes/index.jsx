@@ -40,43 +40,46 @@ export default function AdminNotes() {
   function displayGrafic(notes) {
     let usersId = []
     let usersName = []
-
+    
     const usersValues = [];
     const groupValues = [];
-
+    
     notes.map(note => {
-
+      
       const gruposIds = note.grupos.map(grup => grup.user_id)
-
+      console.log(note.user_id)
       if (!usersId.includes(note.user_id)) {
         usersId.push(note.user_id)
       }
-
+      
       usersFilter.map(user => {
         if (gruposIds.includes(Number(user.id))) {
           groupValues[user.name] = (groupValues[user.name] || 0) + 1;
           if (!usersName.includes(user.name)) {
-
+            
             usersName.push(user.name)
           }
           return
         }
-
+        
         if (user.id === note.user_id) {
           usersValues[user.name] = (usersValues[user.name] || 0) + 1;
           if (!usersName.includes(user.name)) {
-
+            
             usersName.push(user.name)
           }
         }
-
+        
       })
     })
-
-
+    
+    
+    console.log(usersId)
     return [Object.values(usersValues), usersName, usersId, Object.values(groupValues)]
-
+    
   }
+
+  console.log(displayGrafic(notes))
 
   return (
 
