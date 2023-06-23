@@ -52,7 +52,7 @@ export function Details() {
         data &&
         <main>
           <Content>
-            <div>
+            <div className='botoes'>
               <Link to={`/Edit/${params.id}`}>
                 <ButtonText title="Editar Nota"></ButtonText>
               </Link>

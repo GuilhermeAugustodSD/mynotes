@@ -15,7 +15,7 @@ import Grid from '@mui/material/Grid';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import TabsItens from './TabItens';
-import { Navigate, Outlet, useNavigate } from 'react-router-dom';
+import { Navigate, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { Dashboard, Home, Lock, LockPerson } from '@mui/icons-material';
 import { Stack, Switch } from '@mui/material';
 import { useAuth } from '../../hooks/auth';
@@ -118,8 +118,8 @@ const AntSwitch = styled(Switch)(({ theme }) => ({
 const defaultTheme = createTheme();
 
 function actualPage() {
-  let route = window.location.pathname
-  switch (route) {
+  let route = useLocation()
+  switch (route.pathname) {
     case '/admin':
       return 'Dashboard'
     case '/admin/users':
@@ -127,7 +127,7 @@ function actualPage() {
     case '/admin/notes':
       return 'Notes'
     case '/admin/teams':
-      return 'Teams'
+      return 'Grupos'
   }
 }
 

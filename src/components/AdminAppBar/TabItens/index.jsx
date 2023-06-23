@@ -39,7 +39,7 @@ export default function TabsItens ({ linkDashboard, linkUser, linkNotes, linkTea
                     <ListItemIcon>
                         <Groups />
                     </ListItemIcon>
-                    <ListItemText primary="Teams" />
+                    <ListItemText primary="Grupos" />
                 </ListItemButton>
             </Link>
         </>

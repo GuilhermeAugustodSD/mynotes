@@ -80,7 +80,7 @@ export default function AdminTeamsTable({ teams, setTeams }) {
     return (
         <>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
-                <SearchBar label='Search user' />
+                <SearchBar label='Pesquisar grupo' />
             </div>
             <TableContainer style={{ marginTop: '2%' }}>
                 <Table>

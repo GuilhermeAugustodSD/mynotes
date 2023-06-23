@@ -52,7 +52,7 @@ export default function AdminViewTeams() {
     return (
         <>
             <AdminCards
-                gridXs={8}
+                gridXs={12}
                 gridMd={4}
                 gridLg={9}
                 paperP={2}
@@ -64,7 +64,7 @@ export default function AdminViewTeams() {
             />
 
             <AdminCards
-                gridXs={5}
+                gridXs={12}
                 gridMd={4}
                 gridLg={3}
                 paperP={2}
