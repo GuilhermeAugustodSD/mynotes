@@ -45,7 +45,6 @@ export default function AdminTable({ data }) {
         setCurremtPage(0)
     }, [itensPerPage])
 
-    //console.log(currentNotes)
     return (
         <>
          
@@ -57,7 +56,7 @@ export default function AdminTable({ data }) {
                                 Nome
                             </StyledTableCell>
                             <StyledTableCell>
-                                Numero de notas
+                                Numero de notas criadas
                             </StyledTableCell>
                             <StyledTableCell>
                                 Numero de notas de grupo

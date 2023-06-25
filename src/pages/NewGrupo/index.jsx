@@ -39,8 +39,8 @@ export function NewGrupo(){
                     inputLabel: 'Novo colaborador',
                     inputPlaceholder: 'Digite o e-mail',
                     color: "#fff",
-                    background: "#312E38",
-                    confirmButtonColor: "#FF9000"
+                    background: "#011526",
+                    confirmButtonColor: "#03b2ec"
 
                 }).then((result) => {
                     setEmail(result.value);
@@ -67,7 +67,7 @@ export function NewGrupo(){
                             showConfirmButton: false,
                             timer: 2000,
                             color: "#fff",
-                            background: "#312E38"
+                            background: "#011526"
                         })
                     }
     
@@ -79,9 +79,9 @@ export function NewGrupo(){
                             icon: 'error',
                             title: add.response.data.message,
                             showConfirmButton: true,
-                            confirmButtonColor: "#FF9000",
+                            confirmButtonColor: "#03b2ec",
                             color: "#fff",
-                            background: "#312E38"
+                            background: "#011526"
                         })
                     }else {
                         Swal.fire({
@@ -89,9 +89,9 @@ export function NewGrupo(){
                             icon: 'error',
                             title: "Por favor, tente novamente!",
                             showConfirmButton: true,
-                            confirmButtonColor: "#FF9000",
+                            confirmButtonColor: "#03b2ec",
                             color: "#fff",
-                            background: "#312E38"
+                            background: "#011526"
                         })
                     }
                 }
@@ -178,9 +178,9 @@ export function NewGrupo(){
                 icon: 'warning',
                 title: "Digite o nome do grupo!",
                 showConfirmButton: true,
-                confirmButtonColor: "#FF9000",
+                confirmButtonColor: "#03b2ec",
                 color: "#fff",
-                background: "#312E38"
+                background: "#011526"
             });
         }
         
@@ -195,7 +195,7 @@ export function NewGrupo(){
             showConfirmButton: false,
             timer: 1500,
             color: "#fff",
-            background: "#312E38"
+            background: "#011526"
         })
         navigate(-1);
     }
@@ -228,7 +228,7 @@ export function NewGrupo(){
                         <h1>Grupos</h1>
                     </header>
 
-                    <ul key="ul">
+                    <ul key="1">
                         {
                             grupos &&
                             grupos.map((grupo, index) => (

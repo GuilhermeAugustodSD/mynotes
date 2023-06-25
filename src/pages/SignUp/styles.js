@@ -52,6 +52,8 @@ export const Form = styled.form`
 export const Background = styled.div`
     flex: 1;
     background: url(${backgroundImg}) no-repeat center center;
+    filter: brightness(1.2) hue-rotate(180deg);
+
     background-size: cover;
 
     @media (max-width: 480px){

@@ -1,16 +1,15 @@
-import { Routes, Route} from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 
 import { New } from '../pages/New';
 import { NewGrupo } from '../pages/NewGrupo';
 import { Home } from '../pages/Home';
 import { Details } from '../pages/Details';
 import { Profile } from '../pages/Profile';
-import { AppRoutesAdmin } from "./admin.routes";
 import { Edit } from '../pages/Edit';
 
 
-export function AppRoutes(){
-    return(
+export function AppRoutes() {
+    return (
         <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/new' element={<New />} />

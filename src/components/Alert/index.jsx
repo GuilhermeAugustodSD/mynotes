@@ -1,7 +1,6 @@
 import Swal from "sweetalert2"
 
 export default function Confirma(){
-    console.log('aaa')
     const Toast = Swal.mixin({
         toast: true,
         position: 'bottom-end',

@@ -10,10 +10,12 @@ import { ButtonText } from '../../components/ButtonText';
 import { api } from '../../services/api';
 import { Input } from '../../components/Input';
 import { TextArea } from '../../components/TextArea';
-import { MenuItem, Select, Stack, Switch } from '@mui/material';
-import { Lock, LockOpen } from '@mui/icons-material';
+import { IconButton, MenuItem, Select, Stack, Switch } from '@mui/material';
+import { Add, Delete, Lock, LockOpen } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
 import { useAuth } from '../../hooks/auth';
+import moment from 'moment';
+import Swal from 'sweetalert2';
 
 
 export function Edit() {
@@ -28,13 +30,15 @@ export function Edit() {
     const [noteTag, setNoteTag] = useState([])
     const [noteUrl, setNoteUrl] = useState([])
     const [noteCheck, setNoteCheck] = useState([])
+    const [newItem, setNewItem] = useState("");
+
 
 
     const params = useParams();
     const navigate = useNavigate();
 
     const { user } = useAuth()
-    console.log(user)
+
     function handleBack() {
         navigate(-1);
     }
@@ -55,6 +59,17 @@ export function Edit() {
             await api.delete(`/notes/${params.id}`)
             navigate(-1)
         }
+    }
+
+    function handleAddLink(setItem) {
+        const id = Math.floor(80000 * Math.random(50))
+        const objeto = { id: id, note_id: noteId, url: newItem, created_at: moment().format('MMMM Do YYYY, h:mm:ss ') }
+        setItem(prevState => [...prevState, objeto]);
+        setNewItem("");
+    }
+
+    function handleDeleteLink(id, setItem) {
+        setItem(prevState => prevState.filter(link => link.id !== id))
     }
 
     const handleEditUrl = (id) => (ev) => {
@@ -160,6 +175,8 @@ export function Edit() {
         if (noteTeam === 0) {
             setNoteTeam(null)
         }
+
+
         await api.put(`notes/edit`, {
             noteId,
             noteTitle: noteTitle,
@@ -168,10 +185,20 @@ export function Edit() {
             noteUrl,
             noteCheck,
             noteRestriction,
-            noteTeam
+            noteTeam,
+            noteUserId: user.id
         })
             .then(() => {
-                alert('cadastro feito')
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Nota editada',
+                    background: "#312E38",
+                    color: "#fff",
+                    showConfirmButton: false,
+                    timer: 2000
+                  })
+
+                  navigate('/')
             })
             .catch((err) => { console.log(err) })
     }
@@ -218,7 +245,7 @@ export function Edit() {
                             <Select
                                 success
                                 key={1}
-                                sx={{ mt: 2, background: 'rgb(1, 21, 38)', color: 'rgb(244, 237, 232)'}}
+                                sx={{ mt: 2, background: '#011526', color: 'rgb(244, 237, 232)' }}
                                 required
                                 fullWidth
                                 value={noteTeam ? noteTeam : 'Selecione um novo campo'}
@@ -238,16 +265,26 @@ export function Edit() {
 
                     {
                         noteUrl &&
-                        <Section title="Links Úteis">
+                        <Section title="Links Úteis"
+                            icons={<IconButton>
+                                <Add
+                                    onClick={() => handleAddLink(setNoteUrl)} />
+                            </IconButton>
+                            }>
+
                             <Links>
                                 {noteUrl.map(url =>
-                                    <Input
-                                        key={url.id}
-                                        id={String(url.id)}
-                                        label='Url'
-                                        value={url.url}
-                                        onChange={handleEditUrl(url.id)}
-                                    />
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '2%' }}>
+                                        <Input
+                                            key={url.id}
+                                            id={String(url.id)}
+                                            label='Url'
+                                            value={url.url}
+                                            onChange={handleEditUrl(url.id)}
+                                        />
+                                        <Delete
+                                            onClick={() => handleDeleteLink(url.id, setNoteUrl)} />
+                                    </div>
                                 )}
                             </Links>
                         </Section>
@@ -255,23 +292,37 @@ export function Edit() {
 
                     {
                         noteTag &&
-                        <Section title="Marcadores">
+                        <Section title="Marcadores"
+                            icons={<IconButton>
+                                <Add
+                                    onClick={() => handleAddLink(setNoteTag)} />
+                            </IconButton>
+                            }>
                             {noteTag.map(tag =>
-                                <Input key={tag.id}
-                                    id={String(tag.id)}
-                                    label='Tag'
-                                    value={tag.name}
-                                    onChange={handleEditTag(tag.id)}
-                                />
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '2%' }}>
+                                    <Input key={tag.id}
+                                        id={String(tag.id)}
+                                        label='Tag'
+                                        value={tag.name}
+                                        onChange={handleEditTag(tag.id)}
+                                    />
+                                    <Delete
+                                        onClick={() => handleDeleteLink(tag.id, setNoteTag)} />
+                                </div>
                             )}
                         </Section>
                     }
 
                     {
                         noteCheck &&
-                        <Section title="Checklist">
-                            <Links>
-                                {noteCheck.map(check =>
+                        <Section title="Checklist"
+                            icons={<IconButton>
+                                <Add
+                                    onClick={() => handleAddLink(setNoteCheck)} />
+                            </IconButton>
+                            }>
+                            {noteCheck.map(check =>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '2%' }}>
                                     <Input
                                         key={check.id}
                                         id={String(check.id)}
@@ -279,8 +330,11 @@ export function Edit() {
                                         value={check.title}
                                         onChange={handleEditCheck(check.id)}
                                     />
-                                )}
-                            </Links>
+                                    <Delete
+                                        onClick={() => handleDeleteLink(check.id, setNoteCheck)} />
+                                </div>
+
+                            )}
                         </Section>
                     }
 

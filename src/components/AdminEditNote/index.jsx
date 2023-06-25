@@ -1,10 +1,13 @@
-import { ArrowBack, Group, Lock, LockOpen, Tag } from "@mui/icons-material";
+import { Add, ArrowBack, Delete, Group, Lock, LockOpen, MonetizationOn, PlusOne, Tag } from "@mui/icons-material";
 import { styled } from '@mui/material/styles';
-import { Box, Button, MenuItem, Select, Stack, Switch, TextField, Typography } from "@mui/material";
+import { Box, Button, Grid, IconButton, InputAdornment, MenuItem, Select, Stack, Switch, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { api } from "../../services/api";
 import Swal from "sweetalert2";
+import { NoteItem } from "../NoteItem";
+import moment from "moment/moment";
+import IconTextField from "../AdminUsers/AdminTextField";
 
 
 
@@ -31,9 +34,11 @@ export default function EditNote({
     const [noteDescription, setNoteDescription] = useState(description)
     const [noteTag, setNoteTag] = useState(tags)
     const [noteUrl, setNoteUrl] = useState(urls)
+    const [newUrl, setNewUrl] = useState("");
+
     const [noteCheck, setNoteCheck] = useState(checks)
-    
-    const navigate = useNavigate();     
+
+    const navigate = useNavigate();
 
     async function submeter(ev) {
         ev.preventDefault()
@@ -49,7 +54,8 @@ export default function EditNote({
             noteUrl,
             noteCheck,
             noteRestriction,
-            noteTeam
+            noteTeam,
+            noteUserId
         })
             .then(() => {
                 const Toast = Swal.mixin({
@@ -58,26 +64,35 @@ export default function EditNote({
                     showConfirmButton: false,
                     timer: 3000,
                     timerProgressBar: true,
-                    
+
                     didOpen: (toast) => {
                         toast.addEventListener('mouseenter', Swal.stopTimer)
                         toast.addEventListener('mouseleave', Swal.resumeTimer)
                     }
                 })
-                
+
                 Toast.fire({
-                    iconColor:"white", 
+                    iconColor: "white",
                     icon: 'success',
                     title: 'Nota salva',
                     background: '#a5dc86'
-                  })
-                
+                })
+
                 navigate(-1)
             })
             .catch((err) => { console.log(err) })
     }
 
+    function handleAddLink(setItem) {
+        const id = Math.floor(80000 * Math.random(50))
+        const objeto = { id: id, note_id: noteId, url: newUrl, created_at: moment().format('MMMM Do YYYY, h:mm:ss ') }
+        setItem(prevState => [...prevState, objeto]);
+        setNewUrl("");
+    }
 
+    function handleDeleteLink(id, setItem) {
+        setItem(prevState => prevState.filter(link => link.id !== id))
+    }
 
     function handleBack() {
         navigate(-1);
@@ -243,51 +258,92 @@ export default function EditNote({
                         </div>
 
                     </div>
+                    
                     <div style={{ display: 'flex', flexDirection: 'row', width: '60%', justifyContent: 'space-around' }}>
                         <div>
-                            <Typography variant="h6">Urls</Typography>
-                            {noteUrl.map(url =>
-                                <TextField
-                                    sx={{ ml: '2%' }}
-                                    key={url.id}
-                                    margin="normal"
-                                    required
-                                    id={String(url.id)}
-                                    autoFocus
-                                    label='Url'
-                                    value={url.url}
-                                    onChange={handleEditUrl(url.id)}
-                                />
-                            )}
-                            <Typography variant="h6">Tags</Typography>
-                            {noteTag.map(tag =>
-                                <TextField key={tag.id}
-                                    sx={{ ml: '2%' }}
-                                    margin="normal"
-                                    required
-                                    id={String(tag.id)}
-                                    autoFocus
-                                    label='Tag'
-                                    value={tag.name}
-                                    onChange={handleEditTag(tag.id)}
-                                />
+                            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                                <Typography variant="h6">Urls</Typography>
+                                <IconButton >
+                                    <Add
+                                        color="success"
+                                        onClick={() => handleAddLink(setNoteUrl)} />
+                                </IconButton>
+                            </div>
+                            <Grid container direction='row' gap={2} >
 
-                            )}
+                                {noteUrl.map(url =>
+                                    <IconTextField
+                                        key={url.id}
+                                        margin="normal"
+                                        required
+                                        label='Url'
+                                        value={url.url}
+                                        onChange={handleEditUrl(url.id)}
+                                        iconEnd={<Delete
+                                            color="error"
+                                            onClick={() => handleDeleteLink(url.id, setNoteUrl)} />
+                                        }
+                                    >
+                                    </IconTextField>
+                                )}
+                            </Grid>
 
-                            <Typography variant="h6">Cheklist</Typography>
-                            {noteCheck.map(check =>
-                                <TextField
-                                    sx={{ ml: '2%' }}
-                                    key={check.id}
-                                    margin="normal"
-                                    required
-                                    id={String(check.id)}
-                                    autoFocus
-                                    label='Check'
-                                    value={check.title}
-                                    onChange={handleEditCheck(check.id)}
-                                />
-                            )}
+
+                            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                                <Typography variant="h6">Tags</Typography>
+                                <IconButton >
+                                    <Add
+                                        color="success"
+                                        onClick={() => handleAddLink(setNoteTag)} />
+                                </IconButton>
+                            </div>
+                            <Grid container direction='row' gap={2} >
+                                {noteTag.map(tag =>
+                                    <IconTextField
+                                        key={tag.id}
+                                        margin="normal"
+                                        required
+                                        label='Tag'
+                                        value={tag.name}
+                                        onChange={handleEditTag(tag.id)}
+                                        iconEnd={<Delete
+                                            color="error"
+                                            onClick={() => handleDeleteLink(tag.id, setNoteTag)} />
+                                        }
+                                    />
+
+                                )}
+                            </Grid>
+
+
+                            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                                <Typography variant="h6">Cheklist</Typography>
+                                <IconButton >
+                                    <Add
+                                        color="success"
+                                        onClick={() => handleAddLink(setNoteCheck)} />
+                                </IconButton>
+                            </div>
+                            <Grid container direction='row' gap={2}>
+                                {noteCheck.map(check =>
+                                    <IconTextField
+                                        key={check.id}
+                                        margin="normal"
+                                        required
+                                        autoFocus
+                                        label='Check'
+                                        multiline
+                                        rows={4}
+                                        value={check.title}
+                                        onChange={handleEditCheck(check.id)}
+                                        iconEnd={<Delete
+                                            color="error"
+                                            onClick={() => handleDeleteLink(check.id, setNoteCheck)} />
+                                        }
+                                    />
+                                )}
+                            </Grid>
+
                         </div>
                     </div>
 

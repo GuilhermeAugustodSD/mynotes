@@ -5,7 +5,7 @@ import { Chart as Chartjs } from 'chart.js/auto';
 export default function AdminGrafic({ created, chartLabel, secondLabel }) {
     //console.log(created)
 
-    const [data, labels, userIds, datas = ''] = created
+    const [data, labels, userIds, datas= ''] = created
 
     let userChart = []
 

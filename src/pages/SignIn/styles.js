@@ -49,6 +49,8 @@ export const Background = styled.div`
     flex: 1;
     background: url(${backgroundImg}) no-repeat center center;
     background-size: cover;
+    filter: brightness(1.2) hue-rotate(180deg);
+
 
     @media (max-width: 480px){
         display: none;  
