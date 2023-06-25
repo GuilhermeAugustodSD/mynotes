@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { api } from '../services/api'
 export const AuthContext = createContext({});
+import Swal from 'sweetalert2'
 
 
 function AuthProvider({ children }){
@@ -10,6 +11,7 @@ function AuthProvider({ children }){
     async function signIn({email, password}) {
         
         try {
+            
             const response = await api.post("/sessions", {email, password});
 
             const { user, token } = response.data
@@ -23,9 +25,25 @@ function AuthProvider({ children }){
 
         }catch(error) {
             if(error.response){
-                alert(error.response.data.message);
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    title: error.response.data.message,
+                    showConfirmButton: false,
+                    timer: 1500,
+                    color: "#fff",
+                    background: "#011526"
+                });
             }else {
-                alert("Não foi possível entrar!");
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    title: "Não foi possível entrar!",
+                    showConfirmButton: false,
+                    timer: 1500,
+                    color: "#fff",
+                    background: "#011526"
+                });
             }
         }
     }

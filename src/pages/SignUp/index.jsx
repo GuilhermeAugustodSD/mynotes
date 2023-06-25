@@ -5,6 +5,7 @@ import { Input } from '../../components/Input';
 import { Button } from '../../components/Button';
 import {FiLogIn, FiMail, FiLock, FiUser} from 'react-icons/fi'
 import { Link, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2'
 
 import { api } from '../../services/api'
 
@@ -18,19 +19,51 @@ export function SignUp(){
 
     function handleSignUp(){
         if(!name || !email || !password) {
-            return alert("Preencha todos os campos!");
+            return Swal.fire({
+                position: 'center',
+                icon: 'warning',
+                title: " Preencha todos os campos!",
+                showConfirmButton: false,
+                timer: 1500,
+                color: "#fff",
+                background: "#011526"
+            });
         }
 
         api.post("/users", { name, email, password })
         .then(() => {
-            alert("Usuário Cadastrado com sucesso!");
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Usuário Cadastrado!',
+                showConfirmButton: false,
+                timer: 1500,
+                color: "#fff",
+                background: "#011526"
+            })
             navigate("/")
         })
         .catch(error => {
             if(error.response){
-                alert(error.response.data.message);
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    title: error.response.data.message,
+                    showConfirmButton: false,
+                    timer: 1500,
+                    color: "#fff",
+                    background: "#011526"
+                })
             }else {
-                alert("Não foi possível cadastrar");
+                Swal.fire({
+                    position: 'center',
+                    icon: 'warning',
+                    title: 'Não foi possível cadastrar!',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    color: "#fff",
+                    background: "#011526"
+                })
             }
         });
     }

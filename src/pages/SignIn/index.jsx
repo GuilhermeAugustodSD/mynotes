@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 
 import { useAuth } from "../../hooks/auth";
 import { useState } from "react";
-
+import Swal from 'sweetalert2'
 export function SignIn(){
 
     const { signIn } = useAuth();
