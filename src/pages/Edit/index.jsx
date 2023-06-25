@@ -187,7 +187,7 @@ export function Edit() {
                     <ButtonText title="Excluir Nota" onClick={handleRemove}></ButtonText>
 
                     <Stack direction="row" marginBottom={'5%'} spacing={1} alignItems="center">
-                        <LockOpen style={{ color: "#a9a9a9" }} />
+                        <LockOpen style={{ color: "#03b2ec" }} />
                         <AntSwitch
                             checked={noteRestriction
                                 ?
@@ -197,7 +197,7 @@ export function Edit() {
                             }
                             onChange={(ev) => setNoteRestriction(ev.target.checked)}
                             inputProps={{ 'aria-label': 'ant design' }} />
-                        <Lock style={{ color: "#a9a9a9" }} />
+                        <Lock style={{ color: "#03b2ec" }} />
                     </Stack>
 
 
@@ -221,7 +221,7 @@ export function Edit() {
                                 sx={{ mt: 2, background: 'rgb(1, 21, 38)', color: 'rgb(244, 237, 232)'}}
                                 required
                                 fullWidth
-                                value={noteTeam}
+                                value={noteTeam ? noteTeam : 'Selecione um novo campo'}
                                 onChange={(ev) => setNoteTeam(ev.target.value)}
                             >
                                 {userTeams.map(grupo => {

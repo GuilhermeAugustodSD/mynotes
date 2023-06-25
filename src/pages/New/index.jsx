@@ -39,7 +39,6 @@ export function New(){
     
         fetchGrupos();
     }, [])
-    console.log(grupos);
     const navigate = useNavigate();
 
     function handleAddLink() {
@@ -80,9 +79,9 @@ export function New(){
                 icon: 'warning',
                 title: "Digite o título da nota!",
                 showConfirmButton: true,
-                confirmButtonColor: "#FF9000",
+                confirmButtonColor: "#03b2ec",
                 color: "#fff",
-                background: "#312E38"
+                background: "#023059"
             });;
         }
         
@@ -92,9 +91,9 @@ export function New(){
                 icon: 'warning',
                 title: "Você deixou uma Link no campo de adicionar, mas não adicionou corretamente",
                 showConfirmButton: true,
-                confirmButtonColor: "#FF9000",
+                confirmButtonColor: "#03b2ec",
                 color: "#fff",
-                background: "#312E38"
+                background: "#023059"
             });
         }
 
@@ -104,9 +103,9 @@ export function New(){
                 icon: 'warning',
                 title: "Você deixou uma Tag no campo de adicionar, mas não adicionou corretamente",
                 showConfirmButton: true,
-                confirmButtonColor: "#FF9000",
+                confirmButtonColor: "#03b2ec",
                 color: "#fff",
-                background: "#312E38"
+                background: "#023059"
             });
         }
         
@@ -127,7 +126,7 @@ export function New(){
             showConfirmButton: false,
             timer: 2000,
             color: "#fff",
-            background: "#312E38"
+            background: "#023059"
         });
         navigate(-1);
     }
